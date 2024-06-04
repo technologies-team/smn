@@ -25,7 +25,7 @@ class LoginUserRequest extends FormRequest
         return [
             'email' => 'sometimes|required_without_all:phone,remember_token|string',
             'password' => 'sometimes|required_without_all:phone,remember_token|string',
-            'phone' => 'required|string|unique:users,phone',
+            'phone' => 'sometimes|required_without_all:email,password|string',
             'remember_token' => 'sometimes|required_without_all:name,phone|string',
         ];
     }

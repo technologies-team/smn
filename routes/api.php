@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\api\Auth\CustomerController;
+use App\Http\Controllers\api\BannerController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\EmailController;
 use Illuminate\Http\Request;
@@ -40,3 +41,4 @@ Route::prefix('/vendor')->group(function () {
 Route::prefix('/customer')->group(function () {
     Costumer(CustomerController::class);
 });
+Route::apiResource('banner', BannerController::class);

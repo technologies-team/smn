@@ -10,7 +10,7 @@ use Exception;
 
 class CustomerController extends Controller
 {
-    private AuthService $service;
+    protected AuthService $service;
 
     public function __construct(AuthService $service)
     {
