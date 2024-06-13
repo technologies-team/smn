@@ -7,6 +7,7 @@ use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -58,3 +59,6 @@ route::prefix('/food')->group(function () {
     CrudApi(FoodController::class);
 });
 Route::Resource('banner', BannerController::class);
+//payment method url
+Route::post('/payment/intent', [PaymentController::class, 'createPaymentIntent']);
+Route::post('/webhook/stripe', [PaymentController::class, 'webhook']);
