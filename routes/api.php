@@ -62,3 +62,4 @@ Route::Resource('banner', BannerController::class);
 //payment method url
 Route::post('/payment/intent', [PaymentController::class, 'createPaymentIntent']);
 Route::post('/webhook/stripe', [PaymentController::class, 'webhook']);
+Route::post('/payment/callback', [PaymentController::class, 'webhook']);

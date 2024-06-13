@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 namespace App\Http\Controllers;
 
+use App\DTOs\Result;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
+use Stripe\Webhook;
 
 class PaymentController extends Controller
 {
@@ -32,10 +34,11 @@ class PaymentController extends Controller
                 'currency' => $request->currency,
                 'payment_method_types' => ['card'],
             ]);
-
-            return response()->json([
+            $data=[
                 'clientSecret' => $paymentIntent->client_secret,
-            ]);
+                'id' => $paymentIntent->id,
+            ];
+           return$this->ok(new Result($data,'payment intent success'));
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -48,15 +51,18 @@ class PaymentController extends Controller
         $endpoint_secret = config('stripe.webhook_secret');
 
         try {
-            $event = \Stripe\Webhook::constructEvent(
+            $event = Webhook::constructEvent(
                 $payload, $sig_header, $endpoint_secret
             );
         } catch (\UnexpectedValueException $e) {
+            // Invalid payload
             return response()->json(['error' => 'Invalid payload'], 400);
         } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            // Invalid signature
             return response()->json(['error' => 'Invalid signature'], 400);
         }
 
+        // Handle the event
         switch ($event->type) {
             case 'payment_intent.succeeded':
                 $paymentIntent = $event->data->object;
