@@ -1,44 +1,60 @@
 <?php
 
-
 use App\Http\Controllers\api\Auth\CustomerController;
+use App\Http\Controllers\api\Auth\KitchenController;
 use App\Http\Controllers\api\BannerController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\EmailController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\FoodController;
+use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
 
+if (!function_exists('authFunctionApi')) {
+    function authFunctionApi($controller): void
+    {
+        Route::prefix('/auth')->group(function () use ($controller) {
+            Route::post('/reset-password', [EmailController::class, 'resetPassword']);
+            Route::post("/reset-password/confirm", [EmailController::class, 'confirmResetPassword']);
+            Route::post("/reset-password/check-otp", [EmailController::class, 'checkOtp']);
+            Route::post('/login', [$controller, 'login']);
+            Route::post('/social-login', [$controller, 'socialLogin']);
+            Route::post('/register', [$controller, 'register']);
 
-function Costumer($controller): void
-{
-    Route::prefix('/auth')->group(function () use ($controller) {
-
-        Route::post('/reset-password', [EmailController::class, 'resetPassword']);
-        Route::post("/reset-password/confirm", [EmailController::class, 'confirmResetPassword']);
-        Route::post("/reset-password/check-otp", [EmailController::class, 'checkOtp']);
-        Route::post('/login', [$controller, 'login']);
-        Route::post('/social-login', [$controller, 'socialLogin']);
-        Route::post('/phone-login', [$controller, 'phoneLogin']);
-        Route::post('/register', [UserController::class, 'register']);
-
-        Route::middleware('auth:sanctum')->group(function () use ($controller) {
-            Route::put('/user/{id}', [UserController::class, 'update']);
-            Route::get('/me', [$controller, 'me']);
-            Route::get('/delete', [$controller, 'delete']);
-            Route::post('/logout', [$controller, 'logout']);
+            Route::middleware('auth:sanctum')->group(function () use ($controller) {
+                Route::put('/user/{id}', [UserController::class, 'update']);
+                Route::get('/me', [$controller, 'me']);
+                Route::get('/delete', [$controller, 'delete']);
+                Route::post('/logout', [$controller, 'logout']);
+            });
         });
-    });
+    }
 }
 
-Costumer(CustomerController::class);
-Route::prefix('/vendor')->group(function () {
-    //Costumer(VendorController::class);
+if (!function_exists('CrudApi')) {
+    function CrudApi($controller): void
+    {
+        Route::get('/', [$controller, 'index']);
+        Route::get('/{id}', [$controller, 'show']);
+
+        Route::middleware('auth:sanctum')->group(function () use ($controller) {
+            Route::post('/', [$controller, 'storeAll']);
+            Route::put('/{id}', [$controller, 'updateAll']);
+            Route::delete('/{id}', [$controller, 'destroy']);
+        });
+    }
+}
+
+authFunctionApi(CustomerController::class);
+
+Route::prefix('/kitchen')->group(function () {
+    authFunctionApi(KitchenController::class);
 });
+
 Route::prefix('/customer')->group(function () {
-    Costumer(CustomerController::class);
+    authFunctionApi(CustomerController::class);
 });
-Route::apiResource('banner', BannerController::class);
+route::prefix('/food')->group(function () {
+    CrudApi(FoodController::class);
+});
+Route::Resource('banner', BannerController::class);

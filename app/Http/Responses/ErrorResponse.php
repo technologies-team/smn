@@ -19,6 +19,6 @@ class ErrorResponse extends JsonResponse
         $data = [];
         $data['message'] = $message;
         $data['statusCode'] = $statusCode;
-        parent::__construct($data, 400);
+        parent::__construct($data, 422);
     }
 }

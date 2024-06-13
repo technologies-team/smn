@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\Result;
-use App\DTOs\SearchQuery;
-
-use App\Http\Requests\SearchRequest;
 use App\Http\Responses\ErrorResponse;
 use App\Http\Responses\SuccessResponse;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -19,54 +16,6 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param SearchRequest $request
-     * @return SuccessResponse
-     * @throws \Exception
-     */
-    public function index(SearchRequest $request): SuccessResponse
-    {
-        return $this->ok($this->service->search(SearchQuery::fromJson($request->all())));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return SuccessResponse
-     * @throws \Exception
-     */
-    public function show(int $id): SuccessResponse
-    {
-        return $this->ok($this->service->get($id));
-    }
-
-
-    /**
-     * @throws \Exception
-     */
-    public function update( $request, int $id): SuccessResponse
-    {
-        return $this->ok($this->service->save($id, $request->all()));
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function store( $request): SuccessResponse
-    {
-        return $this->ok($this->service->create($request->all()));
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function destroy(int $id): SuccessResponse
-    {
-        return $this->ok($this->service->delete($id));
-    }
     /**
      * echo
      */

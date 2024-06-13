@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('kitchens', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+
             $table->string('title');
             $table->string('title_ar')->nullable();
             $table->text('description')->nullable();
@@ -21,10 +23,11 @@ return new class extends Migration
             $table->integer('mobile')->nullable();
             $table->boolean('verified')->default(0);
             $table->boolean('ready_to_delivery')->default(0);
-            $table->boolean('closed')->default(1);
+            $table->enum('status',["open","busy","closed"])->default("closed");
             $table->boolean('active')->default(0);
             $table->unsignedBigInteger('photo_id')->nullable();
             $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

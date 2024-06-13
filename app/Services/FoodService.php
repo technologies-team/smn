@@ -6,16 +6,19 @@ namespace App\Services;
 
 use App\DTOs\Result;
 use App\Models\Banner;
+use App\Models\Food;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 
-class BannerService extends ModelService
+class FoodService extends ModelService
 {
     /**
      * storable field is a field which can be filled during creating the record
      */
     protected array $storables = [
-        'title',
+
+        'title', 'title_ar', 'description_ar', 'weight', 'deliverable', 'unit', 'preparation_time',
+        'ingredients', 'price', 'kitchen_id', 'category_id', 'rewards',
         'photo_id', 'description'
     ];
 
@@ -38,7 +41,7 @@ class BannerService extends ModelService
 
     public function builder(): Builder
     {
-        return Banner::query();
+        return Food::query();
     }
 
     /**

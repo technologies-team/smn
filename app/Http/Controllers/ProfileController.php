@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Responses\SuccessResponse;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,8 +27,10 @@ class ProfileController extends Controller
 
     /**
      * Update the user's profile information.
+     * @param ProfileUpdateRequest $request
+     * @param int $id
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request, int $id): SuccessResponse
     {
         $request->user()->fill($request->validated());
 
@@ -43,7 +46,7 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request|int $request): SuccessResponse
     {
         $request->validate([
             'password' => ['required', 'current_password'],

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timeTz('preparation_time')->nullable();
             $table->json("ingredients")->nullable();
             $table->decimal('price', 10, 2);
-            $table->unsignedBigInteger('kitchen_id')->nullable();
+            $table->unsignedBigInteger('kitchen_id');
             $table->unsignedBigInteger('category_id');
             $table->integer('rewards')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

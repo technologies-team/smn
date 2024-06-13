@@ -5,67 +5,44 @@ use App\DTOs\Result;
 use App\Models\User;
 use Exception;
 
-class AuthService extends Service
+class AuthService extends UserService
 {
-    protected UserService $userService;
 
-    public function __construct(UserService $userService)
+    /**
+     * login
+     * @param array $credentials
+     * @param string $role
+     * @return Result
+     * @throws Exception
+     */
+    public function login(array $credentials, $role = User::ROLE_CUSTOMER): Result
     {
-        $this->userService = $userService;
+        return parent::login($credentials,User::ROLE_CUSTOMER);
     }
     /**
      * login
+     * @param array $credentials
+     * @param string $role
+     * @return Result
      * @throws Exception
      */
-    public function login(array $credentials): Result
+    public function register($attributes ): Result
     {
-        return $this->userService->login(User::ROLE_CUSTOMER,$credentials);
-    }
-    /**
-     * @throws Exception
-     */
-    public function socialLogin($attributes): Result
-    {
-        if (isset($attributes["name"])) {
-            $user = $this->userService->getUserBy("name", $attributes["name"]);
-
-        } else if (isset($attributes["remember_token"])) {
-            $user = $this->userService->getUserBy("remember_token", $attributes["remember_token"]);
-        } else {
-            throw new Exception("user not found");
-        }
-        return $this->userService->loginRegister($user, $attributes, User::ROLE_CUSTOMER);
+        return parent::register($attributes);
     }
 
     /**
+     * @param $attributes
+     * @param string $role
+     * @return Result
      * @throws Exception
      */
-    public function phoneLogin($attributes): Result
+    public function socialLogin($attributes, string $role=User::ROLE_CUSTOMER): Result
     {
-        $user = $this->userService->getUserBy("phone", $attributes["phone"]);
-        return $this->userService->loginRegister($user, $attributes, User::ROLE_CUSTOMER);
+      return parent::socialLogin($attributes,User::ROLE_CUSTOMER);
     }
     /**
      * @throws Exception
      */
-    public function me(): Result
-    {
-        $user = auth()->user();
-        if ($user instanceof User) {
-            return $this->ok($user, 'auth:me:done');
-        }
-        throw new Exception('unauthenticated');
-    }
-    /**
-     * @throws Exception
-     */
-    public function logout(): Result
-    {
-        $user = auth()->user();
-        if ($user instanceof User) {
-            $user->tokens()->delete();
-            return $this->ok(true, 'done');
-        }
-        throw new Exception('unauthenticated');
-    }
+
 }

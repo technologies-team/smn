@@ -4,16 +4,19 @@ namespace App\Http\Controllers\api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\RegisterKitchenRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Responses\SuccessResponse;
+use App\Services\AuthKitchenService;
 use App\Services\AuthService;
 use Exception;
+use Throwable;
 
-class CustomerController extends Controller
+class KitchenController extends Controller
 {
-    protected AuthService $service;
+    protected AuthKitchenService $service;
 
-    public function __construct(AuthService $service)
+    public function __construct(AuthKitchenService $service)
     {
         $this->service = $service;
     }
@@ -29,22 +32,21 @@ class CustomerController extends Controller
     {
         return $this->ok($this->service->login($request->all()));
     }
-
     /**
      * @throws Exception
-     * @throws \Throwable
-     */
-    public function register(RegisterRequest $request): SuccessResponse
-    {
-        return $this->ok($this->service->register($request->all()));
-    }
-
-    /**
-     * @throws Exception
+     * @throws Throwable
      */
     public function socialLogin(LoginUserRequest $request): SuccessResponse
     {
         return $this->ok($this->service->socialLogin($request->all()));
+    }
+    /**
+     * @throws Exception
+     * @throws \Throwable
+     */
+    public function register(RegisterKitchenRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->register($request->all()));
     }
     /**
      * Me
@@ -57,9 +59,6 @@ class CustomerController extends Controller
 
         return $this->ok($this->service->me());
     }
-
-
-
     /**
      * Logout
      *
@@ -71,11 +70,4 @@ class CustomerController extends Controller
         return $this->ok($this->service->logout());
     }
 
-    /**
-     * @throws Exception
-     */
-    public function delete($id): SuccessResponse
-    {
-        return $this->ok($this->service->delete($id));
-    }
 }

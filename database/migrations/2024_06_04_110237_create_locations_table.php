@@ -24,7 +24,6 @@ return new class extends Migration
             $table->decimal('latitude', 10, 8); // Latitude field
             $table->decimal('longitude', 11, 8); // Longitude field
             $table->unsignedBigInteger('user_id');
-            $table->string('parking_type');
             $table->timestamps();
 
             // Foreign key constraints

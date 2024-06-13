@@ -22,7 +22,7 @@ class User extends Authenticatable implements OTPNotifiable
 {
     use HasApiTokens,HasFactory, Notifiable;
     const ROLE_CUSTOMER = 'customer';
-    const ROLE_VENDOR = 'vendor';
+    const ROLE_KITCHEN = 'kitchen';
     const ROLE_ADMIN = 'admin';
     public const statuses = ['NEW', 'UNVERIFIED', 'ACTIVE', 'SUSPENDED'];
     public const status_new = 'NEW';
@@ -45,7 +45,6 @@ class User extends Authenticatable implements OTPNotifiable
         'role'
 
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -56,8 +55,6 @@ class User extends Authenticatable implements OTPNotifiable
         'remember_token',
         'role'
     ];
-
-
     /**
      * Get the attributes that should be cast.
      *
@@ -93,11 +90,12 @@ class User extends Authenticatable implements OTPNotifiable
     public function fcm(): HasMany
     {
         return $this->hasMany(UserFcm::class);
+    }    public function kitchen(): HasMany
+    {
+        return $this->hasMany(Kitchen::class);
     }
     public function toLightWeightArray(): array
     {
-
-        // $customer = $this->isCustomer();
         return $this->toArray();
     }
     public function routeNotificationForFcm(): string
@@ -121,5 +119,16 @@ class User extends Authenticatable implements OTPNotifiable
     public function routeNotificationForOTP(): string
     {
         // TODO: Implement routeNotificationForOTP() method.
+        return 0;
     }
+
+    public function resetToken(): HasOne
+    {
+        return $this->hasOne(PasswordResetToken::class, 'email', 'email');
+    }
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
 }
