@@ -66,14 +66,14 @@ class PaymentController extends Controller
         switch ($event->type) {
             case 'payment_intent.succeeded':
                 $paymentIntent = $event->data->object;
-                Log::info('PaymentIntent was successful!', ['payment_intent' => $paymentIntent]);
+                Log::channel('payment')->info('PaymentIntent was successful!', ['payment_intent' => $paymentIntent]);
                 break;
             case 'payment_intent.payment_failed':
                 $paymentIntent = $event->data->object;
-                Log::error('PaymentIntent failed', ['payment_intent' => $paymentIntent]);
+                Log::channel('payment')->error('PaymentIntent failed', ['payment_intent' => $paymentIntent]);
                 break;
             default:
-                Log::warning('Unhandled event type', ['event' => $event]);
+                Log::channel('payment')->warning('Unhandled event type', ['event' => $event]);
         }
 
         return response()->json(['status' => 'success'], 200);
