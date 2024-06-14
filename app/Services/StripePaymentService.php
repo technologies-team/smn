@@ -68,12 +68,8 @@ class StripePaymentService extends ModelService
     {
       $recode=  $this->find($id);
       if($recode instanceof StripePayment){
-
-
-        $user_id=auth()->id();
-      if($recode->user_id==$user_id){
           $data = $this->update($id,['status' =>"paid"]);
-      }
+
       }
       else throw new Exception("payment not created");
         return$this->ok($recode,"payment created success");
