@@ -68,6 +68,10 @@ class PaymentController extends Controller
                 $paymentIntent = $event->data->object;
                 Log::channel('payment')->info('PaymentIntent was successful!', ['payment_intent' => $paymentIntent->id,'amount'=>$paymentIntent->data->object->amount]);
                 break;
+                case 'payment_intent.created':
+                $paymentIntent = $event->data->object;
+                Log::channel('payment')->info('PaymentIntent was created', ['payment_intent' => $paymentIntent->id,'amount'=>$paymentIntent->data->object->amount]);
+                break;
             case 'payment_intent.payment_failed':
                 $paymentIntent = $event->data->object;
                 Log::channel('payment')->error('PaymentIntent failed', ['payment_intent' => $paymentIntent]);
