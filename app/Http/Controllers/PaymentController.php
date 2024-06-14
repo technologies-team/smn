@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 namespace App\Http\Controllers;
 
 use App\DTOs\Result;
+use App\Models\StripePayment;
+use App\Services\StripePaymentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -15,10 +17,12 @@ use Stripe\Webhook;
 class PaymentController extends Controller
 {
     protected StripeClient $stripe;
+    protected StripePaymentService $stripePayment;
 
-    public function __construct()
+    public function __construct(StripePaymentService $stripePayment)
     {
         $this->stripe = new StripeClient(config('stripe.secret'));
+        $this->stripePayment=$stripePayment;
     }
 
     public function createPaymentIntent(Request $request): JsonResponse
@@ -27,17 +31,22 @@ class PaymentController extends Controller
             'amount' => 'required|integer|min:1',
             'currency' => 'required|string',
         ]);
-
+        $amount= $request->amount;
+        $currencty=$request->currency;
         try {
             $paymentIntent = $this->stripe->paymentIntents->create([
-                'amount' => $request->amount,
-                'currency' => $request->currency,
+                'amount' => $amount,
+                'currency' => $currencty,
                 'payment_method_types' => ['card'],
             ]);
             $data=[
                 'clientSecret' => $paymentIntent->client_secret,
                 'id' => $paymentIntent->id,
+                'amount' => $amount,
+                'currency' => $currencty,
+
             ];
+            $this->stripePayment->create($data);
            return$this->ok(new Result($data,'payment intent success'));
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -70,7 +79,12 @@ class PaymentController extends Controller
                 break;
             case 'payment_intent.succeeded':
                 $paymentIntent = $event->data->object;
-                Log::channel('payment')->info('PaymentIntent was successful!', ['payment_intent' => $paymentIntent->id,'amount'=>$paymentIntent->data->object->amount]);
+                $id= $paymentIntent->id;
+                $record=  $this->stripePayment->findBy("payment_id",$id);
+                if($record instanceof StripePayment){
+                    $this->stripePayment->save($record->id,[]);
+                }
+                Log::channel('payment')->info('PaymentIntent was successful!', ['payment_intent' =>$id,'amount'=>$paymentIntent->data->object->amount]);
                 break;
 
             case 'payment_intent.payment_failed':
@@ -82,5 +96,19 @@ class PaymentController extends Controller
         }
 
         return response()->json(['status' => 'success'], 200);
+    }
+
+    private function savePaymentIntent(array $data,$currency,$amount)
+    {
+        $user_id=auth()->id();
+        $stripePayment = StripePayment::create([
+            'payment_id' => $data["id"],
+            'user_id' =>  $user_id,
+            'amount' => $amount,
+            'currency' => $currency,
+            'status' =>"created",
+            'description' => "smn food",
+            'payment_date' => now(),
+        ]);
     }
 }

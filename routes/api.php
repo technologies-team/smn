@@ -60,6 +60,10 @@ route::prefix('/food')->group(function () {
 });
 Route::Resource('banner', BannerController::class);
 //payment method url
-Route::post('/payment/intent', [PaymentController::class, 'createPaymentIntent']);
-Route::post('/webhook/stripe', [PaymentController::class, 'webhook']);
-Route::post('/payment/callback', [PaymentController::class, 'webhook']);
+Route::middleware('auth:sanctum')->group(function (){
+
+    Route::post('/payment/intent', [PaymentController::class, 'createPaymentIntent']);
+    Route::post('/webhook/stripe', [PaymentController::class, 'webhook']);
+
+});
+    Route::post('/payment/callback', [PaymentController::class, 'webhook']);
