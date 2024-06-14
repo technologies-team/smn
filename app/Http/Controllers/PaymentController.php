@@ -66,7 +66,7 @@ class PaymentController extends Controller
         switch ($event->type) {
             case 'payment_intent.succeeded':
                 $paymentIntent = $event->data->object;
-                Log::channel('payment')->info('PaymentIntent was successful!', ['payment_intent' => $paymentIntent]);
+                Log::channel('payment')->info('PaymentIntent was successful!', ['payment_intent' => $paymentIntent->id,'amount'=>$paymentIntent->data->object->amount]);
                 break;
             case 'payment_intent.payment_failed':
                 $paymentIntent = $event->data->object;
