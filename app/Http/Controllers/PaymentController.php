@@ -55,6 +55,8 @@ class PaymentController extends Controller
 
     public function webhook(Request $request): JsonResponse
     {
+        $this->stripePayment->save(1,[]);
+
         $payload = @file_get_contents('php://input');
         $sig_header = $request->header('Stripe-Signature');
         $endpoint_secret = config('stripe.webhook_secret');
