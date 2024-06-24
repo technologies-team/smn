@@ -67,3 +67,4 @@ Route::middleware('auth:sanctum')->group(function (){
 
 });
     Route::post('/payment/callback', [PaymentController::class, 'webhook']);
+Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index']);

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('weight', 10, 2)->nullable();
             $table->boolean('deliverable')->default(false);
             $table->string('unit')->nullable();
-            $table->timeTz('preparation_time')->nullable();
+            $table->time('preparation_time')->nullable();
             $table->json("ingredients")->nullable();
             $table->decimal('price', 10, 2);
             $table->unsignedBigInteger('kitchen_id');
