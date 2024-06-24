@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Kernel;
 use App\Models\Banner;
+use App\Models\Kitchen;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -36,7 +38,7 @@ class KitchenService extends ModelService
 
     public function builder(): Builder
     {
-        return Banner::query();
+        return Kitchen::query();
     }
 
     /**

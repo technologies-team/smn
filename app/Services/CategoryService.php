@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\DTOs\Result;
 use App\Models\Banner;
+use App\Models\Category;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -38,7 +39,7 @@ class CategoryService extends ModelService
 
     public function builder(): Builder
     {
-        return Banner::query();
+        return Category::query();
     }
 
     /**
