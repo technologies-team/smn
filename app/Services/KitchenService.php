@@ -34,7 +34,7 @@ class KitchenService extends ModelService
     /**
      *
      */
-    protected array $with = ['photo'];
+    protected array $with = ["food"];
 
     public function builder(): Builder
     {

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Kitchen extends Model
@@ -12,8 +13,13 @@ class Kitchen extends Model
     protected $fillable=["user_id","title","title_ar",
         "description","description_ar","active"
         ,"enabled","phone","mobile","verified","ready_to_delivery","closed","photo_id"];
+
 public function user(): HasOne
 {
     return $this->hasOne(User::class);
 }
+    public function food(): HasMany
+    {
+        return $this->hasMany(Food::class);
+    }
 }

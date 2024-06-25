@@ -6,7 +6,6 @@ use App\Http\Controllers\api\BannerController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FoodController;
-use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +49,9 @@ authFunctionApi(CustomerController::class);
 
 Route::prefix('/kitchen')->group(function () {
     authFunctionApi(KitchenController::class);
+});
+Route::prefix('/kitchen')->group(function () {
+    CrudApi(KitchenController::class);
 });
 
 Route::prefix('/customer')->group(function () {
