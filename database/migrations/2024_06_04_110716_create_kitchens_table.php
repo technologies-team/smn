@@ -20,9 +20,11 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('description_ar')->nullable();
             $table->integer('phone')->nullable();
+
             $table->integer('mobile')->nullable();
             $table->boolean('verified')->default(0);
             $table->boolean('ready_to_delivery')->default(0);
+            $table->integer('delivery_fee')->nullable();
             $table->enum('status',["open","busy","closed"])->default("closed");
             $table->boolean('active')->default(0);
             $table->unsignedBigInteger('photo_id')->nullable();

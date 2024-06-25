@@ -16,7 +16,7 @@ class KitchenService extends ModelService
      */
     protected array $storables = [
         'title',
-        'photo_id', 'description'
+        'photo_id', 'description','delivery_fee'
     ];
 
     /**
