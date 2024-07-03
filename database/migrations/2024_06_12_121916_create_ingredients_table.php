@@ -15,8 +15,10 @@ return new class extends Migration {
             $table->string("name");
             $table->string("value")->nullable();
             $table->boolean("mandatory")->default(0);
-            $table->unsignedBigInteger("parent_id");
+            $table->unsignedBigInteger("parent_id")->nullable();
+            $table->unsignedBigInteger("food_id")->nullable();
             $table->foreign("parent_id")->references("id")->on("ingredients")->onDelete("cascade");
+            $table->foreign("food_id")->references("id")->on("foods")->onDelete("cascade");
         });
     }
 
