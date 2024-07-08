@@ -10,5 +10,5 @@ class Ingredient extends Model
 public $timestamps=false;
 
     use HasFactory;
-    protected $fillable=['name','value','parent_id'];
+    protected $fillable=['name','value','parent_id','food_id'];
 }

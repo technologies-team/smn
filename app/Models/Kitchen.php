@@ -18,9 +18,8 @@ class Kitchen extends Model
         "enabled", "phone", "mobile", "verified",
         "ready_to_delivery", "closed", "photo_id","delivery_fee"
     ];
+protected $with=['tags'];
 
-
-    // Relationship with User
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -30,5 +29,8 @@ class Kitchen extends Model
     public function food(): HasMany
     {
         return $this->hasMany(Food::class);
+    }public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
     }
 }

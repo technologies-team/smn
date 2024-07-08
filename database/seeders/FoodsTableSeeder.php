@@ -33,6 +33,7 @@ class FoodsTableSeeder extends Seeder
                 'price' => 15.00,
                 'kitchen_id' => 1,
                 'category_id' => 1,
+                'tag_id' => 1,
                 'rewards' => 10,
                 'photo_id' => 1,
                 'created_at' => now(),
@@ -51,6 +52,8 @@ class FoodsTableSeeder extends Seeder
                 'price' => 10.00,
                 'kitchen_id' => 1,
                 'category_id' => 2,
+                'tag_id' => 2,
+
                 'rewards' => 8,
                 'photo_id' => 2,
                 'created_at' => now(),
@@ -69,6 +72,8 @@ class FoodsTableSeeder extends Seeder
                 'price' => 7.00,
                 'kitchen_id' => 2,
                 'category_id' => 3,
+                'tag_id' => 3,
+
                 'rewards' => 5,
                 'photo_id' => 3,
                 'created_at' => now(),
