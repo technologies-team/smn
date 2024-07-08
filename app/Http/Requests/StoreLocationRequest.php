@@ -26,7 +26,6 @@ class StoreLocationRequest extends FormRequest
         return [
              'user_id' =>"int|exists:users,id",
              'title' =>"required|string",
-             'parking_type' =>"required|string",
             'street1'=>'required|string',
             'city'=>'required|string',
             'country'=>'required|string',
