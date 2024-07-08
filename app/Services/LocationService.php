@@ -18,7 +18,7 @@ class LocationService extends ModelService
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['street1', 'street2', 'country_id', 'phone', 'verified', 'city_id', 'zip_code', 'longitude', 'latitude'];
+    protected array $updatables = ['street1', 'street2', 'country', 'phone', 'verified', 'city', 'zip_code', 'longitude', 'latitude'];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
