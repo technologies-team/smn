@@ -6,6 +6,9 @@ use App\Http\Controllers\api\BannerController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,17 +52,29 @@ authFunctionApi(CustomerController::class);
 
 Route::prefix('/kitchen')->group(function () {
     authFunctionApi(KitchenController::class);
+
 });
 Route::prefix('/kitchen')->group(function () {
     CrudApi(KitchenController::class);
+    route::prefix('/location')->group(function () {
+        CrudApi(LocationController::class);
+    });
 });
 
 Route::prefix('/customer')->group(function () {
     authFunctionApi(CustomerController::class);
+
+});
+route::prefix('/user/location')->group(function () {
+    CrudApi(LocationController::class);
 });
 route::prefix('/food')->group(function () {
     CrudApi(FoodController::class);
 });
+route::prefix('/ingredient')->group(function () {
+    CrudApi(IngredientController::class);
+});
+
 Route::Resource('banner', BannerController::class);
 //payment method url
 Route::middleware('auth:sanctum')->group(function (){
@@ -69,4 +84,4 @@ Route::middleware('auth:sanctum')->group(function (){
 
 });
     Route::post('/payment/callback', [PaymentController::class, 'webhook']);
-Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index']);
