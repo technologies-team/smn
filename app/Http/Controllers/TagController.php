@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\SearchQuery;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\StoreIngredientRequest;
 use App\Http\Responses\SuccessResponse;
 use App\Services\TagService;
 use Exception;
-use Illuminate\Http\Request;
 
 class TagController extends CrudController
 {
@@ -42,6 +40,9 @@ class TagController extends CrudController
     }
 
 
+    /**
+     * @throws Exception
+     */
     public function updateAll(StoreIngredientRequest $request, int $id): SuccessResponse
     {
         return $this->ok($this->service->save($id, $request->all()));
