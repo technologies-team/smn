@@ -17,28 +17,25 @@ class TagService extends ModelService
      * storable field is a field which can be filled during creating the record
      */
     protected array $storables = [
-
-        'title', 'title_ar', 'description_ar', 'weight', 'deliverable', 'unit', 'preparation_time',
-        'ingredients', 'price', 'kitchen_id', 'category_id', 'rewards',
-        'photo_id', 'description'
+        'title','title_ar',
+        'kitchen_id', 'description'
     ];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
     protected array $updatables = [
-        'title',
-        'photo_id', 'description'
+        'title','title_ar',
+        'kitchen_id', 'description'
     ];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
      */
-    protected array $searchables = ['title',];
+    protected array $searchables = ['title','title_ar'];
     /**
      *
      */
-    protected array $with = ['photo'];
 
     public function builder(): Builder
     {

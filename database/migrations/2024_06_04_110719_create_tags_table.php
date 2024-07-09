@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string("title");
+            $table->string("title_ar");
             $table->string("description")->nullable();
             $table->unsignedBigInteger("kitchen_id");
             $table->timestamps();
