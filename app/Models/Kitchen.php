@@ -11,14 +11,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne; // Correcting relation type f
 class Kitchen extends Model
 {
     use HasFactory;
-
+protected $table="kitchens";
     protected $fillable = [
         "user_id", "title", "title_ar",
         "description", "description_ar", "active",
         "enabled", "phone", "mobile", "verified",
         "ready_to_delivery", "closed", "photo_id","delivery_fee"
     ];
-protected $with=['tags'];
+protected $with=['tags','user','photo','cover'];
 
     public function user(): BelongsTo
     {
@@ -33,4 +33,13 @@ protected $with=['tags'];
     {
         return $this->hasMany(Tag::class);
     }
+    public function photo(): BelongsTo
+    {
+        return $this->belongsTo(Attachment::class,'photo_id');
+    }
+    public function cover(): BelongsTo
+    {
+        return $this->belongsTo(Attachment::class,'cover_id');
+    }
+
 }

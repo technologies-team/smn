@@ -10,7 +10,9 @@ use App\Http\Controllers\FoodController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\OptionController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -78,8 +80,11 @@ Route::prefix('/user')->group(function () {
 route::prefix('/food')->group(function () {
     CrudApi(FoodController::class);
 });
-route::prefix('/ingredient')->group(function () {
-    CrudApi(IngredientController::class);
+route::prefix('/options')->group(function () {
+    CrudApi(OptionController::class);
+});
+route::prefix('/tag')->group(function () {
+    CrudApi(TagController::class);
 });
 
 Route::Resource('banner', BannerController::class);

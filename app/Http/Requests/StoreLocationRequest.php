@@ -28,7 +28,6 @@ class StoreLocationRequest extends FormRequest
              'title' =>"required|string",
             'street1'=>'required|string',
             'city'=>'required|string',
-            'country'=>'required|string',
             'phone'=>'required|string',
             'type'=>'required|string',
             'longitude'=>'required|numeric',

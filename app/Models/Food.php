@@ -17,13 +17,13 @@ class Food extends Model
         'ingredients', 'price', 'kitchen_id', 'category_id', 'rewards',
         'photo_id', 'description'
     ];
-    protected $with=['ingredients'];
+    protected $with=['Option'];
     public function photo(): BelongsTo
     {
         return $this->belongsTo(Attachment::class, 'photo_id');
     }
-    public function ingredients(): HasMany
+    public function Option(): HasMany
     {
-        return $this->hasMany(Ingredient::class);
+        return $this->hasMany(Option::class);
     }
 }

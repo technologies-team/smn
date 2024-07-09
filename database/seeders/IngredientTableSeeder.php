@@ -13,10 +13,11 @@ class IngredientTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('ingredients')->insert([
+        DB::table('options')->insert([
             [
                 'name' => 'Sugar',
-                'multi' => false,
+                'type' => 'single',
+                'price'=>0,
                 'mandatory' => true,
                 'parent_id' => null,
                 'food_id' => 1,
@@ -24,7 +25,8 @@ class IngredientTableSeeder extends Seeder
             ],
             [
                 'name' => 'with sugar',
-                'multi' => false,
+                'type' => "ingredient",
+                'price'=>0,
                 'mandatory' => false,
                 'parent_id' => 1,
                 'food_id' => null,
@@ -32,10 +34,37 @@ class IngredientTableSeeder extends Seeder
             ],
             [
                 'name' => 'without sugar',
-                'multi' => false,
+                'type' => 'ingredient',
+                'price'=>0,
                 'mandatory' => true,
                 'parent_id' => 1,
                 'food_id' => 2,
+            ],
+            [
+            'name' => 'cheese',
+            'type' => 'additional',
+            'price'=>0,
+            'mandatory' => true,
+            'parent_id' => null,
+            'food_id' => 1,
+
+        ],
+            [
+                'name' => 'Akkawi',
+                'type' => "multi",
+                'price'=>5,
+                'mandatory' => false,
+                'parent_id' => 4,
+                'food_id' => null,
+
+            ],
+            [
+                'name' => 'mozzarella',
+                'type' => 'multi',
+                'price'=>2.5,
+                'mandatory' => true,
+                'parent_id' => 4,
+                'food_id' => null,
             ]
         ]);
     }

@@ -13,13 +13,7 @@ return new class extends Migration {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->boolean("multi")->default(0);
-            $table->boolean("mandatory")->default(0);
-            $table->unsignedBigInteger("parent_id")->nullable();
-            $table->unsignedBigInteger("food_id")->nullable();
-            $table->foreign("parent_id")->references("id")->on("ingredients")->onDelete("cascade");
-            $table->foreign("food_id")->references("id")->on("foods")->onDelete("cascade");
-        });
+      });
     }
 
     /**

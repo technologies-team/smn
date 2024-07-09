@@ -29,7 +29,7 @@ class AuthKitchenService extends UserService
     public function phoneLogin($attributes): Result
     {
         $user = $this->getUserBy("phone", $attributes["phone"]);
-        return $this->loginRegister($user, $attributes,User::ROLE_VENDOR);
+        return $this->loginRegister($user, $attributes,User::ROLE_KITCHEN);
     }
 
     /**

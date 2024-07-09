@@ -15,11 +15,72 @@ use App\Services\KitchenService;
 use Exception;
 use Throwable;
 
-class KitchenController extends CrudController
+class KitchenController extends Controller
 {
-    protected KitchenService $service;
-public function __construct(KitchenService $service)
+    protected AuthKitchenService $service;
+public function __construct(AuthKitchenService $service)
 {
     $this->service=$service;
 }
+
+    /**
+     * Login
+     *
+     * @param LoginUserRequest $request
+     * @return SuccessResponse
+     * @throws Exception
+     */
+    public function login(LoginUserRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->login($request->all()));
+    }
+
+    /**
+     * @throws Exception
+     * @throws \Throwable
+     */
+    public function register(RegisterRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->register($request->all()));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function socialLogin(LoginUserRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->socialLogin($request->all()));
+    }
+    /**
+     * Me
+     *
+     * @return SuccessResponse
+     * @throws Exception
+     */
+    public function me(): SuccessResponse
+    {
+
+        return $this->ok($this->service->me());
+    }
+
+
+
+    /**
+     * Logout
+     *
+     * @return SuccessResponse
+     * @throws Exception
+     */
+    public function logout(): SuccessResponse
+    {
+        return $this->ok($this->service->logout());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function delete($id): SuccessResponse
+    {
+        return $this->ok($this->service->delete($id));
+    }
 }
