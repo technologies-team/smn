@@ -12,7 +12,7 @@ use GuzzleHttp\Promise\Tests\Thing1;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class CartsService extends ModelService
+class CartsItemService extends ModelService
 {
     /**
      * storable field is a field which can be filled during creating the record

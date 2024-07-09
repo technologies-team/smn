@@ -15,12 +15,12 @@ class IngredientService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['name','value','parent_id','food_id'];
+    protected array $storables = ['name','multi','parent_id','food_id'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables =['name','value','parent_id','food_id'];
+    protected array $updatables =['name','multi','parent_id','food_id'];
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
      */

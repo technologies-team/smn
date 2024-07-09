@@ -4,6 +4,7 @@ use App\Http\Controllers\api\Auth\CustomerController;
 use App\Http\Controllers\api\Auth\KitchenController;
 use App\Http\Controllers\api\BannerController;
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\HomeController;
@@ -65,9 +66,15 @@ Route::prefix('/customer')->group(function () {
     authFunctionApi(CustomerController::class);
 
 });
-route::prefix('/user/location')->group(function () {
-    CrudApi(LocationController::class);
+Route::prefix('/user')->group(function () {
+    route::prefix('/location')->group(function () {
+        CrudApi(LocationController::class);
+    });
+    route::prefix('/cart')->group(function () {
+        CrudApi(CartController::class);
+    });
 });
+
 route::prefix('/food')->group(function () {
     CrudApi(FoodController::class);
 });

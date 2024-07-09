@@ -16,8 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('session_id')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('kitchen_id');
+            $table->unsignedBigInteger('tax')->nullable();
             $table->unsignedBigInteger('total_tax')->nullable();
+            $table->unsignedBigInteger('price');
             $table->unsignedBigInteger('total_price');
+            $table->unsignedBigInteger('discount')->nullable();
+            $table->unsignedBigInteger('total_discount')->nullable();
+            $table->unsignedBigInteger('rewards')->nullable();
             $table->unsignedBigInteger('total_rewards')->nullable();
             $table->unsignedBigInteger('coupon_id')->nullable();
             $table->unsignedBigInteger('offer_id')->nullable();

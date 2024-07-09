@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("value")->nullable();
+            $table->boolean("multi")->default(0);
             $table->boolean("mandatory")->default(0);
             $table->unsignedBigInteger("parent_id")->nullable();
             $table->unsignedBigInteger("food_id")->nullable();
