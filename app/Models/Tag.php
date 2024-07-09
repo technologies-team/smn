@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Tag extends Model
 {
+    protected $fillable=['title','description','kitchen_id'];
     use HasFactory;
     protected $with=['foods'];
     public function foods(): HasMany
