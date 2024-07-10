@@ -57,5 +57,8 @@ class CrudController extends Controller
     public function delete(int $id): SuccessResponse
     {
         return $this->ok($this->service->delete($id));
+    }    public function destroy(int $id): SuccessResponse
+    {
+        return $this->ok($this->service->delete($id));
     }
 }

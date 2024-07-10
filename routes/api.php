@@ -5,6 +5,7 @@ use App\Http\Controllers\api\Auth\KitchenController;
 use App\Http\Controllers\api\BannerController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\HomeController;
@@ -85,6 +86,8 @@ route::prefix('/options')->group(function () {
 });
 route::prefix('/tag')->group(function () {
     CrudApi(TagController::class);
+});route::prefix('/categories')->group(function () {
+    CrudApi(CategoryController::class);
 });
 
 Route::Resource('banner', BannerController::class);
