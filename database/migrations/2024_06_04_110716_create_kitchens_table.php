@@ -28,8 +28,12 @@ return new class extends Migration
             $table->enum('status',["open","busy","closed"])->default("closed");
             $table->boolean('active')->default(0);
             $table->unsignedBigInteger('photo_id')->nullable();
+            $table->unsignedBigInteger('front_id')->nullable();
+            $table->unsignedBigInteger('back_id')->nullable();
             $table->unsignedBigInteger('cover_id')->nullable();
             $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('cascade');
+            $table->foreign('front_id')->references('id')->on('attachments')->onDelete('cascade');
+            $table->foreign('back_id')->references('id')->on('attachments')->onDelete('cascade');
             $table->foreign('cover_id')->references('id')->on('attachments')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();

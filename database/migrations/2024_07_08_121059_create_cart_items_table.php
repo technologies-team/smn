@@ -20,6 +20,8 @@ return new class extends Migration
             $table->float('price');
             $table->float('total_price');
             $table->float('discount');
+            $table->json("options")->nullable();
+
             $table->float('total_discount');
             $table->integer('quantity');
 

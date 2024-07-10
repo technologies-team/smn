@@ -86,7 +86,11 @@ route::prefix('/options')->group(function () {
 });
 route::prefix('/tag')->group(function () {
     CrudApi(TagController::class);
-});route::prefix('/categories')->group(function () {
+});
+route::prefix('/categories')->group(function () {
+    CrudApi(CategoryController::class);
+});
+route::prefix('/attachment')->group(function () {
     CrudApi(CategoryController::class);
 });
 

@@ -42,9 +42,9 @@ class IngredientController extends Controller
     {
         return $this->ok($this->service->get($id));
     }
+protected StoreIngredientRequest $store;
 
-
-    public function updateAll(StoreIngredientRequest $request, int $id): SuccessResponse
+    public function updateAll( $request, int $id): SuccessResponse
     {
         return $this->ok($this->service->save($id, $request->all()));
     }

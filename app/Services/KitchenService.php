@@ -15,8 +15,22 @@ class KitchenService extends ModelService
      * storable field is a field which can be filled during creating the record
      */
     protected array $storables = [
+        'user_id',
         'title',
-        'photo_id', 'description','delivery_fee'
+        'title_ar',
+        'description',
+        'description_ar',
+        'phone',
+        'mobile',
+        'verified',
+        'ready_to_delivery',
+        'delivery_fee',
+        'status',
+        'active',
+        'photo_id',
+        'front_id',
+        'back_id',
+        'cover_id'
     ];
 
     /**

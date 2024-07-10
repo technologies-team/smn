@@ -13,10 +13,22 @@ class Kitchen extends Model
     use HasFactory;
 protected $table="kitchens";
     protected $fillable = [
-        "user_id", "title", "title_ar",
-        "description", "description_ar", "active",
-        "enabled", "phone", "mobile", "verified",
-        "ready_to_delivery", "closed", "photo_id","delivery_fee"
+        'user_id',
+        'title',
+        'title_ar',
+        'description',
+        'description_ar',
+        'phone',
+        'mobile',
+        'verified',
+        'ready_to_delivery',
+        'delivery_fee',
+        'status',
+        'active',
+        'photo_id',
+        'front_id',
+        'back_id',
+        'cover_id'
     ];
 protected $with=['tags','user','photo','cover'];
 

@@ -19,7 +19,7 @@ class FoodService extends ModelService
 
         'title', 'title_ar', 'description_ar', 'weight', 'deliverable', 'unit', 'preparation_time',
         'ingredients', 'price', 'kitchen_id', 'category_id', 'rewards',
-        'photo_id', 'description'
+        'photo_id', 'description','status'
     ];
 
     /**

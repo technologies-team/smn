@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Food;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->decimal('weight', 10, 2)->nullable();
             $table->boolean('deliverable')->default(false);
             $table->string('unit')->nullable();
+            $table->enum('status',Food::STATUS)->default("hidden");
             $table->time('preparation_time')->nullable();
             $table->json("ingredients")->nullable();
             $table->decimal('price', 10, 2);

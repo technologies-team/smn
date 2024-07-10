@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\DTOs\SearchQuery;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreIngredientRequest;
 use App\Http\Requests\StoreRequest;
 use App\Http\Requests\SearchRequest;
 use App\Http\Responses\SuccessResponse;
 use Exception;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use InvalidArgumentException;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class CrudController extends Controller
 {
@@ -47,8 +50,21 @@ class CrudController extends Controller
     /**
      * @throws Exception
      */
-    public function store(Request $request): SuccessResponse
+    public function store( $request): SuccessResponse
     {
+        if (!($request instanceof $this->storeRequest)) {
+            throw new InvalidArgumentException('Expected instance of StoreIngredientRequest');
+        }
+        return $this->ok($this->service->create($request->all()));
+    }
+    public function storeAll(Request $request): SuccessResponse
+    {
+        // Ensure the incoming request is an instance of StoreIngredientRequest
+        $expectedClass = get_class($this->storeRequest);
+        if (!($request instanceof $expectedClass)) {
+            throw new InvalidArgumentException('Expected instance of ' . get_class($this->storeRequest));
+        }
+
         return $this->ok($this->service->create($request->all()));
     }
     /**
