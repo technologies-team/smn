@@ -60,21 +60,21 @@ class AttachmentRequest extends FormRequest
         ];
     }
 
-    private function updateRules()
+    private function updateRules(): array
     {
         return [
 
         ];
     }
 
-    private function showRules()
+    private function showRules(): array
     {
         return [
 
         ];
     }
 
-    private function deleteRules()
+    private function deleteRules(): array
     {
         return [
 

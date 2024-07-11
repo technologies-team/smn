@@ -60,7 +60,7 @@ class CrudController extends Controller
     public function storeAll(Request $request): SuccessResponse
     {
         // Ensure the incoming request is an instance of StoreIngredientRequest
-        $expectedClass = get_class($this->storeRequest);
+        $expectedClass = get_class($this->Request);
         if (!($request instanceof $expectedClass)) {
 $x=1;
         }

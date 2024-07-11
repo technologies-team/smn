@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 
 
 
-use App\Http\Requests\Attachment\UpdateRequest;
 use App\Http\Requests\AttachmentRequest;
 use App\Services\AttachmentService;
-use App\Http\Requests\Attachment\StoreRequest;
 use Exception;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
