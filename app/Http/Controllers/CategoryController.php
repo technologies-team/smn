@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreIngredientRequest;
+use App\Http\Requests\CategoryRequest;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class CategoryController extends CrudController
 {
    protected CategoryService $service;
-   public function __construct(CategoryService $service,StoreIngredientRequest $storeRequest){
+   public function __construct(CategoryService $service,CategoryRequest $Request){
        $this->service=$service;
-       $this->storeRequest=$storeRequest;
+       $this->Request=$Request;
    }
-    protected StoreIngredientRequest $storeRequest;
+    protected CategoryRequest $Request;
 
 }

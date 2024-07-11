@@ -7,6 +7,7 @@ use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\HomeController;
@@ -106,3 +107,14 @@ Route::middleware('auth:sanctum')->group(function (){
 });
     Route::post('/payment/callback', [PaymentController::class, 'webhook']);
 Route::get('/home', [HomeController::class, 'index']);
+
+Route::prefix('/coupon')->group(function () {
+    Route::middleware('auth:sanctum')
+        ->group(function () {
+            Route::post('/', [CouponController::class, 'apply']);
+            Route::post('/remove', [CouponController::class, 'remove']);
+
+        });
+
+});
+

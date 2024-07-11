@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\DTOs\SearchQuery;
 use App\Http\Requests\SearchRequest;
-use App\Http\Requests\StoreIngredientRequest;
-use App\Http\Requests\Tag\StoreRequest;
 use App\Http\Requests\TagRequest;
 use App\Http\Responses\SuccessResponse;
 use App\Services\TagService;

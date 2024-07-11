@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\DTOs\SearchQuery;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreIngredientRequest;
 use App\Http\Requests\StoreRequest;
 use App\Http\Requests\SearchRequest;
 use App\Http\Responses\SuccessResponse;
@@ -54,7 +53,7 @@ class CrudController extends Controller
     /**
      * @throws Exception
      */
-    public function store( $request): SuccessResponse
+    public function store(FormRequest $request): SuccessResponse
     {
         if (!($request instanceof $this->Request)) {
             $x=1;
