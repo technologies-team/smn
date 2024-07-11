@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Tag;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class LocationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -54,8 +54,35 @@ class StoreRequest extends FormRequest
     protected function storeRules(): array
     {
         return [
-            'title' => 'string|required',
-            'kitchen_id' => 'int|required|exists:kitchens,id',
+            'user_id' =>"int|exists:users,id",
+            'title' =>"required|string",
+            'street1'=>'required|string',
+            'city'=>'required|string',
+            'phone'=>'required|string',
+            'type'=>'required|string',
+            'longitude'=>'required|numeric',
+            'latitude'=>'required|numeric'
+        ];
+    }
+
+    private function updateRules(): array
+    {
+        return [
+
+        ];
+    }
+
+    private function showRules(): array
+    {
+        return [
+
+        ];
+    }
+
+    private function deleteRules(): array
+    {
+        return [
+
         ];
     }
 }

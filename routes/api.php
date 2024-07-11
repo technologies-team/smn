@@ -10,7 +10,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\PaymentController;
@@ -46,9 +45,9 @@ if (!function_exists('CrudApi')) {
         Route::get('/{id}', [$controller, 'show']);
 
         Route::middleware('auth:sanctum')->group(function () use ($controller) {
-            Route::post('/', [$controller, 'storeAll']);
-            Route::put('/{id}', [$controller, 'updateAll']);
-            Route::delete('/{id}', [$controller, 'destroy']);
+            Route::post('/', [$controller, 'store']);
+            Route::put('/{id}', [$controller, 'update']);
+            Route::delete('/{id}', [$controller, 'delete']);
         });
     }
 }

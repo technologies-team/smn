@@ -44,6 +44,10 @@ class CrudController extends Controller
 
     public function update(FormRequest $request, int $id): SuccessResponse
     {
+        if (!($request instanceof $this->Request)) {
+            $x=1;
+
+        }
         return $this->ok($this->service->save($id, $request->all()));
     }
 
@@ -53,20 +57,12 @@ class CrudController extends Controller
     public function store( $request): SuccessResponse
     {
         if (!($request instanceof $this->Request)) {
-            throw new InvalidArgumentException('Expected instance of StoreIngredientRequest');
-        }
-        return $this->ok($this->service->create($request->all()));
-    }
-    public function storeAll(Request $request): SuccessResponse
-    {
-        // Ensure the incoming request is an instance of StoreIngredientRequest
-        $expectedClass = get_class($this->Request);
-        if (!($request instanceof $expectedClass)) {
-$x=1;
-        }
+            $x=1;
 
+        }
         return $this->ok($this->service->create($request->all()));
     }
+
     /**
      * @throws Exception
      */
