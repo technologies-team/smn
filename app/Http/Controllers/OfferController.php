@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Food\StoreRequest;
-use App\Services\FoodService;
+use App\Http\Requests\OfferRequest;
+use App\Services\OfferService;
 use Exception;
-use Illuminate\Http\Request;
 
 class OfferController extends CrudController
 {
-    protected FoodService $service ;
-    protected StoreRequest $storeRequest;
-    public function __construct(FoodService $bannerService){
+    protected OfferService $service ;
+    protected OfferRequest $Request;
+    public function __construct(OfferService $bannerService){
         $this->service= $bannerService;
     }
     /**
