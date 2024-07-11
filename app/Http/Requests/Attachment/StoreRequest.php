@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Tag;
+namespace App\Http\Requests\Attachment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,8 +24,8 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string|required',
-            'kitchen_id' => 'int|required|exists:kitchens,id',
+            'attachment' => 'required|max:20000|mimes:pdf,jpg,jpeg,png,bmp,svg,tiff,mp4,mov,ogg,qt',
+            'title' =>"string"
         ];
     }
 }

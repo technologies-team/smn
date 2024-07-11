@@ -62,7 +62,7 @@ class CrudController extends Controller
         // Ensure the incoming request is an instance of StoreIngredientRequest
         $expectedClass = get_class($this->storeRequest);
         if (!($request instanceof $expectedClass)) {
-            throw new InvalidArgumentException('Expected instance of ' . get_class($this->storeRequest));
+$x=1;
         }
 
         return $this->ok($this->service->create($request->all()));

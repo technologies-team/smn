@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Tag;
-
+namespace App\Http\Requests\Attachment;
 use Illuminate\Foundation\Http\FormRequest;
-
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +13,6 @@ class StoreRequest extends FormRequest
     {
         return true;
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,7 +22,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'title' => 'string|required',
-            'kitchen_id' => 'int|required|exists:kitchens,id',
+            'kitchen_id' => 'int|required|exists:kitchen,id',
+            'price'=>'int|required'
         ];
     }
 }

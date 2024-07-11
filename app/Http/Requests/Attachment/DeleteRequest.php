@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Tag;
-
+namespace App\Http\Requests\Attachment;
 use Illuminate\Foundation\Http\FormRequest;
-
-class StoreRequest extends FormRequest
+class DeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +22,6 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string|required',
-            'kitchen_id' => 'int|required|exists:kitchens,id',
         ];
     }
 }

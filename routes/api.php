@@ -4,6 +4,7 @@ use App\Http\Controllers\api\Auth\CustomerController;
 use App\Http\Controllers\api\Auth\KitchenController;
 use App\Http\Controllers\api\BannerController;
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmailController;
@@ -91,7 +92,7 @@ route::prefix('/categories')->group(function () {
     CrudApi(CategoryController::class);
 });
 route::prefix('/attachment')->group(function () {
-    CrudApi(CategoryController::class);
+    CrudApi(AttachmentController::class);
 });
 
 Route::Resource('banner', BannerController::class);
