@@ -6,6 +6,7 @@ use App\DTOs\SearchQuery;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\StoreIngredientRequest;
 use App\Http\Requests\Tag\StoreRequest;
+use App\Http\Requests\TagRequest;
 use App\Http\Responses\SuccessResponse;
 use App\Services\TagService;
 use Exception;
@@ -13,10 +14,10 @@ use Exception;
 class TagController extends CrudController
 {
     protected TagService $service;
-    protected StoreRequest $storeRequest;
-    public function __construct( TagService $service,StoreRequest $storeRequest){
+    protected TagRequest $Request;
+    public function __construct( TagService $service,TagRequest $Request){
         $this->service=$service;
-        $this->storeRequest=$storeRequest;
+        $this->Request=$Request;
     }
     /**
      * Display a listing of the resource.

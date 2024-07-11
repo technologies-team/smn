@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Tag;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class AttachmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,6 +21,7 @@ class StoreRequest extends FormRequest
      *
      * @return array
      */
+
     public function rules(): array
     {
         $rules = [];
@@ -54,8 +55,29 @@ class StoreRequest extends FormRequest
     protected function storeRules(): array
     {
         return [
-            'title' => 'string|required',
-            'kitchen_id' => 'int|required|exists:kitchens,id',
+            'attachment' => 'required|max:20000|mimes:pdf,jpg,jpeg,png,bmp,svg,tiff,mp4,mov,ogg,qt',
+            'title' =>"string"
+        ];
+    }
+
+    private function updateRules()
+    {
+        return [
+
+        ];
+    }
+
+    private function showRules()
+    {
+        return [
+
+        ];
+    }
+
+    private function deleteRules()
+    {
+        return [
+
         ];
     }
 }

@@ -5,24 +5,27 @@ namespace App\Http\Controllers;
 
 
 
+use App\Http\Requests\Attachment\UpdateRequest;
+use App\Http\Requests\AttachmentRequest;
 use App\Services\AttachmentService;
 use App\Http\Requests\Attachment\StoreRequest;
+use Exception;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
 class AttachmentController extends CrudController
 {
     protected AttachmentService $service;
-    protected StoreRequest $storeRequest;
+    protected AttachmentRequest $Request;
 
-    public function __construct(AttachmentService $service,StoreRequest $storeRequest)
+    public function __construct(AttachmentService $service,AttachmentRequest $Request)
     {
         $this->service = $service;
-        $this->storeRequest=$storeRequest;
+        $this->Request=$Request;
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function download(string $name): StreamedResponse
     {

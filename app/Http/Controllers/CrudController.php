@@ -52,7 +52,7 @@ class CrudController extends Controller
      */
     public function store( $request): SuccessResponse
     {
-        if (!($request instanceof $this->storeRequest)) {
+        if (!($request instanceof $this->Request)) {
             throw new InvalidArgumentException('Expected instance of StoreIngredientRequest');
         }
         return $this->ok($this->service->create($request->all()));

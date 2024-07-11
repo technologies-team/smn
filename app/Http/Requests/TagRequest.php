@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Tag;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class TagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -57,5 +57,17 @@ class StoreRequest extends FormRequest
             'title' => 'string|required',
             'kitchen_id' => 'int|required|exists:kitchens,id',
         ];
+    }
+
+    private function updateRules()
+    {
+    }
+
+    private function showRules()
+    {
+    }
+
+    private function deleteRules()
+    {
     }
 }
