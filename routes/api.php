@@ -93,6 +93,8 @@ route::prefix('/categories')->group(function () {
 });
 route::prefix('/attachment')->group(function () {
     CrudApi(AttachmentController::class);
+    Route::get('/download/{name}',  [AttachmentController::class, 'download']);
+
 });
 
 Route::Resource('banner', BannerController::class);
