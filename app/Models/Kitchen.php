@@ -30,7 +30,7 @@ protected $table="kitchens";
         'back_id',
         'cover_id'
     ];
-protected $with=['tags','user','photo','cover'];
+protected $with=['photo','cover'];
 
     public function user(): BelongsTo
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CrudController;
+use App\Http\Requests\KitchenRequest;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterKitchenRequest;
 use App\Http\Requests\RegisterRequest;
@@ -15,14 +16,15 @@ use App\Services\KitchenService;
 use Exception;
 use Throwable;
 
-class KitchenController extends Controller
+class AuthKitchenController extends CrudController
 {
     protected AuthKitchenService $service;
-public function __construct(AuthKitchenService $service)
+    protected KitchenRequest $Request;
+public function __construct(AuthKitchenService $service, KitchenRequest $Request)
 {
     $this->service=$service;
+    $this->Request=$Request;
 }
-
     /**
      * Login
      *
@@ -34,16 +36,14 @@ public function __construct(AuthKitchenService $service)
     {
         return $this->ok($this->service->login($request->all()));
     }
-
     /**
      * @throws Exception
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function register(RegisterRequest $request): SuccessResponse
     {
         return $this->ok($this->service->register($request->all()));
     }
-
     /**
      * @throws Exception
      */
@@ -62,9 +62,6 @@ public function __construct(AuthKitchenService $service)
 
         return $this->ok($this->service->me());
     }
-
-
-
     /**
      * Logout
      *
@@ -74,13 +71,5 @@ public function __construct(AuthKitchenService $service)
     public function logout(): SuccessResponse
     {
         return $this->ok($this->service->logout());
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function delete($id): SuccessResponse
-    {
-        return $this->ok($this->service->delete($id));
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\CouponRequest;
 use App\Http\Requests\OfferRequest;
+use App\Http\Responses\SuccessResponse;
 use App\Services\CouponService;
-use App\Services\FoodService;
-use Illuminate\Http\Request;
+use Exception;
 
 class CouponController extends Controller
 {
@@ -14,5 +14,17 @@ class CouponController extends Controller
     protected OfferRequest $Request;
     public function __construct(CouponService $bannerService){
         $this->service= $bannerService;
+    }
+    public function apply(CouponRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->apply($request->all()));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function remove(): SuccessResponse
+    {
+        return $this->ok($this->service->removeCoupon());
     }
 }

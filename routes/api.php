@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\api\Auth\AuthKitchenController;
 use App\Http\Controllers\api\Auth\CustomerController;
-use App\Http\Controllers\api\Auth\KitchenController;
+use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\api\BannerController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\AttachmentController;
@@ -56,7 +57,7 @@ if (!function_exists('CrudApi')) {
 authFunctionApi(CustomerController::class);
 
 Route::prefix('/kitchen')->group(function () {
-    authFunctionApi(KitchenController::class);
+    authFunctionApi(AuthKitchenController::class);
 
 });
 Route::prefix('/kitchen')->group(function () {
@@ -76,6 +77,8 @@ Route::prefix('/user')->group(function () {
     });
     route::prefix('/cart')->group(function () {
         CrudApi(CartController::class);
+        Route::middleware('auth:sanctum')->post('/add',  [CartController::class, 'addToCart']);
+
     });
 });
 

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\Result;
 use App\Kernel;
 use App\Models\Banner;
 use App\Models\Kitchen;
@@ -10,6 +11,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class KitchenService extends ModelService
 {
+    protected UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
     /**
      * storable field is a field which can be filled during creating the record
@@ -37,8 +44,22 @@ class KitchenService extends ModelService
      * updatable field is a field which can be filled during updating the record
      */
     protected array $updatables = [
+        'user_id',
         'title',
-        'photo_id', 'description'
+        'title_ar',
+        'description',
+        'description_ar',
+        'phone',
+        'mobile',
+        'verified',
+        'ready_to_delivery',
+        'delivery_fee',
+        'status',
+        'active',
+        'photo_id',
+        'front_id',
+        'back_id',
+        'cover_id'
     ];
 
     /**
@@ -48,7 +69,7 @@ class KitchenService extends ModelService
     /**
      *
      */
-    protected array $with = ["food"];
+    protected array $with = ['tags', 'user', 'photo', 'cover'];
 
     public function builder(): Builder
     {
@@ -62,6 +83,15 @@ class KitchenService extends ModelService
     {
 
         return parent::prepare($operation, $attributes);
+    }
+    public function save($id, array $attributes): Result
+    {
+        $kitchen=$this->find($id);
+        if(isset($attributes["user"])){
+            $this->userService->update($kitchen->user_id,$attributes["user"]);
+        }
+        return $this->ok($this->update($id, $attributes), 'records:save:done');
+
     }
 
     /**

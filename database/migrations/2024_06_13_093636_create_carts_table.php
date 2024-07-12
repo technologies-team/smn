@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('kitchen_id');
             $table->unsignedBigInteger('tax')->nullable();
             $table->unsignedBigInteger('total_tax')->nullable();
-            $table->unsignedBigInteger('price');
-            $table->unsignedBigInteger('total_price');
+            $table->unsignedBigInteger('price')->default(0);
+            $table->unsignedBigInteger('total_price')->default(0);
             $table->unsignedBigInteger('discount')->nullable();
             $table->unsignedBigInteger('total_discount')->nullable();
             $table->unsignedBigInteger('rewards')->nullable();
