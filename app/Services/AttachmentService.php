@@ -77,6 +77,21 @@ class AttachmentService extends ModelService
         }
         return $this->ok($this->store($attributes), 'files:upload:succeeded');
     }
+    public function save($id, array $attributes): Result
+    {
+        $upload = $attributes["attachment"];
+        $attributes['mime_type'] = $upload->getMimeType();
+        $dir = 'attachment';
+
+        try {
+            $attributes['path'] = $upload->store($dir);
+            $name = explode('/', $attributes['path']);
+            $attributes['name'] = last($name);
+        } catch (Throwable $th) {
+            throw new Exception('files:upload:errors:failed:' . $th->getMessage());
+        }
+        return parent::save($id, $attributes);
+    }
 
 
     /**

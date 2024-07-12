@@ -32,7 +32,7 @@ class Attachment extends Model
     protected $appends = [
         'url',
     ];
-    public function getUrlAttribute()
+    public function getUrlAttribute(): string
     {
         $url = env('APP_URL');
         $url = [$url . '/api', 'attachment', 'download', $this->name];
