@@ -55,6 +55,8 @@ class FeedBackRequest extends FormRequest
     protected function storeRules(): array
     {
         return [
+            'message' => 'required|max:20000|string',
+            'order_id' =>'required|int|exists:orders,id'
         ];
     }
 
