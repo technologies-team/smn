@@ -26,8 +26,8 @@ return new class extends Migration
             $table->unsignedBigInteger('total_rewards')->nullable();
             $table->unsignedBigInteger('coupon_id')->nullable();
             $table->unsignedBigInteger('offer_id')->nullable();
-            $table->foreign('coupon_id')->references('id')->on('coupons')->onDelete('restrict');
-            $table->foreign('offer_id')->references('id')->on('offers')->onDelete('restrict');
+            $table->foreign('coupon_id')->references('id')->on('coupons')->onDelete('set null');
+            $table->foreign('offer_id')->references('id')->on('offers')->onDelete('set null');
             $table->foreign("user_id")->references("id")->on("users")->onDelete("restrict");
             $table->foreign("kitchen_id")->references("id")->on("kitchens")->onDelete("restrict");
             $table->timestamps();

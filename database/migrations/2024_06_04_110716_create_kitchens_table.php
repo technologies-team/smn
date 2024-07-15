@@ -29,10 +29,10 @@ return new class extends Migration
             $table->unsignedBigInteger('front_id')->nullable();
             $table->unsignedBigInteger('back_id')->nullable();
             $table->unsignedBigInteger('cover_id')->nullable();
-            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('cascade');
-            $table->foreign('front_id')->references('id')->on('attachments')->onDelete('cascade');
-            $table->foreign('back_id')->references('id')->on('attachments')->onDelete('cascade');
-            $table->foreign('cover_id')->references('id')->on('attachments')->onDelete('cascade');
+            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('set null');
+            $table->foreign('front_id')->references('id')->on('attachments')->onDelete('set null');
+            $table->foreign('back_id')->references('id')->on('attachments')->onDelete('set null');
+            $table->foreign('cover_id')->references('id')->on('attachments')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();

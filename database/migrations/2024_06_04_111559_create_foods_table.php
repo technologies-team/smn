@@ -28,12 +28,12 @@ return new class extends Migration
             $table->unsignedBigInteger('kitchen_id');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('tag_id')->nullable();
-            $table->integer('rewards')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
-            $table->foreign('kitchen_id')->references('id')->on('kitchens')->onDelete('cascade');
             $table->unsignedBigInteger('photo_id')->nullable();
-            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('cascade');
+            $table->integer('rewards')->nullable();
+            $table->foreign('kitchen_id')->references('id')->on('kitchens')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('tag_id')  ->references('id')->on('tags')->onDelete('set null');
+            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
         });

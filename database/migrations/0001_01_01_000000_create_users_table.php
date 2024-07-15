@@ -30,7 +30,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('cascade');
+            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('set null');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

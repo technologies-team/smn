@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('title_ar')->nullable();
             $table->softDeletes();
             $table->unsignedBigInteger('photo_id')->nullable();
-            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('restrict');
+            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('set null');
              $table->unsignedBigInteger('photo_ar_id')->nullable();
-            $table->foreign('photo_ar_id')->references('id')->on('attachments')->onDelete('restrict');
+            $table->foreign('photo_ar_id')->references('id')->on('attachments')->onDelete('set null');
             $table->timestamps();
         });
     }

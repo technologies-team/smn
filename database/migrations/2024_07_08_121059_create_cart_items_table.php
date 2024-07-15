@@ -26,8 +26,8 @@ return new class extends Migration {
 
             $table->foreign("cart_id")->references("id")->on("carts")->onDelete("cascade");
             $table->foreign("food_id")->references("id")->on("foods")->onDelete("cascade");
-            $table->foreign("offer_id")->references("id")->on("offers")->onDelete("cascade");
-            $table->foreign("coupon_id")->references("id")->on("coupons")->onDelete("cascade");
+            $table->foreign("offer_id")->references("id")->on("offers")->onDelete("set null");
+            $table->foreign("coupon_id")->references("id")->on("coupons")->onDelete("set null");
             $table->timestamps();
         });
     }

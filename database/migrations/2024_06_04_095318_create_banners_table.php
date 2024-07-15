@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('language')->default("en");
             $table->timestamps();
 
-            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('restrict');
+            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('set null');
 
         });
     }

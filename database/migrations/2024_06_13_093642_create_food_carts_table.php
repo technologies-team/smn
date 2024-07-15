@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->decimal('rewards')->nullable();
             $table->integer('tax')->default(0);
             $table->integer('quantity');
-            $table->foreign('coupon_id')->references('id')->on('coupons')->onDelete('restrict');
+            $table->foreign('coupon_id')->references('id')->on('coupons')->onDelete('set null');
             $table->foreign('cart_id')->references('id')->on('carts')->onDelete('restrict');
             $table->foreign('food_id')->references('id')->on('foods')->onDelete('restrict');
             $table->timestamps();

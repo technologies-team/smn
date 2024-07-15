@@ -20,6 +20,9 @@ return new class extends Migration {
             $table->enum("rate", ClientFeedback::STARS)->nullable();
             $table->enum("status", ClientFeedback::STATUS)->default("init");
             $table->timestamps();
+            $table->foreign('user_id')->on('users')->references('id')->onDelete('cascade');
+            $table->foreign('order_id')->on('orders')->references('id')->onDelete('cascade');
+
         });
     }
 

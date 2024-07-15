@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->string('name_ar')->nullable();
             $table->text('description_ar')->nullable();
-            $table->unsignedBigInteger('photo_id');
+            $table->unsignedBigInteger('photo_id')->nullable();
             $table->enum('type',\App\Models\Offer::TYPE);
             $table->decimal('percent_limited', 10, 2)->nullable();
             $table->decimal('min_amount', 10, 2)->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->dateTime('expires_at');
             $table->boolean('enabled')->default(true);
             $table->integer('count')->default(0);
-            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('cascade');
+            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('set null');
             $table->timestamps();
             $table->softDeletes();
         });
