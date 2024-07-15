@@ -24,5 +24,8 @@ class HomeController extends Controller
     public function index(SearchRequest $request): SuccessResponse
     {
         return $this->ok($this->service->index(SearchQuery::fromJson($request->all())));
+    }    public function kitchenHome(SearchRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->kitchenHome(SearchQuery::fromJson($request->all())));
     }
 }

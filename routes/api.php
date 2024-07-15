@@ -105,6 +105,9 @@ route::prefix('/categories')->group(function () {
 route::prefix('/attachment')->group(function () {
     CrudApi(AttachmentController::class);
 
+});route::prefix('/home')->group(function () {
+    Route::get('/kitchen', [HomeController::class, 'kitchenHome']);
+    Route::get('/', [HomeController::class, 'index']);
 });
 Route::get('/attachment/download/{name}',  [AttachmentController::class, 'download']);
 
@@ -117,7 +120,7 @@ Route::middleware('auth:sanctum')->group(function (){
 
 });
     Route::post('/payment/callback', [PaymentController::class, 'webhook']);
-Route::get('/home', [HomeController::class, 'index']);
+
 
 Route::prefix('/coupon')->group(function () {
     Route::middleware('auth:sanctum')
