@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FeedBackRequest extends FormRequest
+class OrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -55,9 +55,7 @@ class FeedBackRequest extends FormRequest
     protected function storeRules(): array
     {
         return [
-            'message' => 'max:20000|string',
-            'rate' => 'required|int',
-            'order_id' =>'required|int|exists:orders,id'
+
         ];
     }
 
