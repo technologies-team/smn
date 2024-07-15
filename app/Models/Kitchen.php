@@ -30,7 +30,7 @@ protected $table="kitchens";
         'back_id',
         'cover_id'
     ];
-protected $with=['photo','cover','front_id','back_id'];
+protected $with=['photo','cover','idFront','idBack'];
 
     public function user(): BelongsTo
     {
@@ -52,12 +52,12 @@ protected $with=['photo','cover','front_id','back_id'];
     public function cover(): BelongsTo
     {
         return $this->belongsTo(Attachment::class,'cover_id');
-    }  public function front_id(): BelongsTo
+    }  public function idFront(): BelongsTo
     {
-        return $this->belongsTo(Attachment::class,'cover_id');
-    }  public function back_id(): BelongsTo
+        return $this->belongsTo(Attachment::class,'back_id');
+    }  public function idBack(): BelongsTo
     {
-        return $this->belongsTo(Attachment::class,'cover_id');
+        return $this->belongsTo(Attachment::class,'front_id');
     }
 
 }
