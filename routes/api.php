@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\Auth\AuthKitchenController;
 use App\Http\Controllers\api\Auth\CustomerController;
+use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\api\BannerController;
 use App\Http\Controllers\api\UserController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\FoodController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OptionController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
@@ -71,6 +73,10 @@ Route::prefix('/customer')->group(function () {
     authFunctionApi(CustomerController::class);
 
 });
+Route::prefix('/feedback')->group(function () {
+    CrudApi(FeedBackController::class);
+
+});
 Route::prefix('/user')->group(function () {
     route::prefix('/location')->group(function () {
         CrudApi(LocationController::class);
@@ -84,6 +90,8 @@ Route::prefix('/user')->group(function () {
 
 route::prefix('/food')->group(function () {
     CrudApi(FoodController::class);
+});route::prefix('/order')->group(function () {
+    CrudApi(OrderController::class);
 });
 route::prefix('/options')->group(function () {
     CrudApi(OptionController::class);

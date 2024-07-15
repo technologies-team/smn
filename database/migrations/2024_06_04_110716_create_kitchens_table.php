@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('title_ar')->nullable();
             $table->text('description')->nullable();
             $table->text('description_ar')->nullable();
-            $table->integer('phone')->nullable();
-            $table->integer('mobile')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('mobile')->nullable();
             $table->boolean('verified')->default(false);
             $table->boolean('ready_to_delivery')->default(false);
             $table->integer('delivery_fee')->nullable();
