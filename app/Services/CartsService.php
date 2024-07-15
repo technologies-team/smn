@@ -13,15 +13,16 @@ use GuzzleHttp\Promise\Tests\Thing1;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Ignition\Tests\TestClasses\Models\Car;
+use Symfony\Component\HttpKernel\Tests\Fixtures\Controller\NullableController;
 
 class CartsService extends ModelService
 {
     protected UserService $userService;
     protected KitchenService $kitchenService;
     protected FoodService $foodService;
-    protected CartsItemService  $cartsItemService;
+    protected CartsItemService $cartsItemService;
 
-    public function __construct(UserService $userService, KitchenService $kitchenService, FoodService $foodService,CartsItemService  $cartsItemService)
+    public function __construct(UserService $userService, KitchenService $kitchenService, FoodService $foodService, CartsItemService $cartsItemService)
     {
         $this->userService = $userService;
         $this->kitchenService = $kitchenService;
@@ -99,27 +100,33 @@ class CartsService extends ModelService
     {
         $user = $this->getUser();
         $attributes['user_id'] = $user->id;
+        $cart = null;
+        $items=array();
+        $total=0;
+        $price=0;
         foreach ($attributes['foods'] as $foodCart) {
 
-            $food=$this->foodService->find($foodCart['food_id']);
-            $kitchen_id=$food->kitchen_id;
-           $cart= $this->getCartBy("kitchen_id",$kitchen_id,$user->id);
-           if($cart instanceof Cart){
-
-           }
-           else{
-               $newCart=[
-                   'user_id'=>$user->id,
-                   'kitchen_id'=>$kitchen_id
-               ];
-              $cart= $this->create($newCart);
-           }
-            $foodCart["cart_id"]=$cart->id;
-         $item=  $this->cartsItemService->store($foodCart);
-dd($item);
+            $food = $this->foodService->find($foodCart['food_id']);
+            $kitchen_id = $food->kitchen_id;
+            $cart = $this->getCartBy("kitchen_id", $kitchen_id, $user->id);
+            if (!$cart instanceof Cart) {
+                $newCart = [
+                    'user_id' => $user->id,
+                    'kitchen_id' => $kitchen_id
+                ];
+                $cart = $this->create($newCart);
+            }
+            $foodCart["cart_id"] = $cart->id;
+           $item=$items[]= $this->cartsItemService->store($foodCart);
+        $total=$total+$item->total_price;
+        $price=$price+$item->price;
         }
 
-        return $this->ok($attributes, "added to cart");
+        $new_attributes=[
+          'price'=>$price,
+          'total_price'=>$total
+        ];
+        return $this->ok($this->update($cart->id,$new_attributes), "added to cart");
     }
 
     /**

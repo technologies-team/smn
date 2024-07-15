@@ -74,7 +74,7 @@ class KitchenRequest extends FormRequest
             'front_id'=>'exists:attachments,id',
             'back_id'=>'exists:attachments,id',
             'cover_id'=>'exists:attachments,id',
-            'user.email' => 'required|string|unique:users,email|email',
+            'user.email' => 'string|unique:users,email|email',
 
 
         ];

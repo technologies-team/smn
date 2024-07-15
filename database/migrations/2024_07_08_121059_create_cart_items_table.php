@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('food_id');
             $table->unsignedBigInteger('cart_id');
+            $table->unsignedBigInteger('food_id');
             $table->unsignedBigInteger('coupon_id')->nullable();
             $table->unsignedBigInteger('offer_id')->nullable();
             $table->float('price');
@@ -22,6 +22,8 @@ return new class extends Migration {
             $table->json("options")->nullable();
             $table->float('total_discount')->nullable();
             $table->integer('quantity');
+            $table->unique(['food_id', 'cart_id']);
+
             $table->foreign("cart_id")->references("id")->on("carts")->onDelete("cascade");
             $table->foreign("food_id")->references("id")->on("foods")->onDelete("cascade");
             $table->foreign("offer_id")->references("id")->on("offers")->onDelete("cascade");

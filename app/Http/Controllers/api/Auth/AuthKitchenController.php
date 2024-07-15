@@ -19,11 +19,10 @@ use Throwable;
 class AuthKitchenController extends CrudController
 {
     protected AuthKitchenService $service;
-    protected KitchenRequest $Request;
-public function __construct(AuthKitchenService $service, KitchenRequest $Request)
+
+public function __construct(AuthKitchenService $service)
 {
     $this->service=$service;
-    $this->Request=$Request;
 }
     /**
      * Login

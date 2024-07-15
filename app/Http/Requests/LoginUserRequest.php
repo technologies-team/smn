@@ -23,10 +23,10 @@ class LoginUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'sometimes|required_without_all:phone,remember_token|string',
-            'password' => 'sometimes|required_without_all:phone,remember_token|string',
-            'phone' => 'sometimes|required_without_all:email,password|string',
-            'remember_token' => 'sometimes|required_without_all:name,phone|string',
+            'email' => 'nullable|required_without:phone,remember_token|string',
+            'password' => 'nullable|required_without:phone,remember_token|string',
+            'phone' => 'nullable|required_without:email,password|string',
+            'remember_token' => 'nullable|required_without:name,phone|string',
         ];
     }
 }
