@@ -32,6 +32,9 @@ class KitchensTableSeeder extends Seeder
                 'status' => 'open',
                 'active' => true,
                 'photo_id' => 1,
+                'front_id' => 1,
+                'back_id' => 1,
+                'cover_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -48,6 +51,9 @@ class KitchensTableSeeder extends Seeder
                 'status' => 'closed',
                 'active' => false,
                 'photo_id' => 2,
+                'front_id' => 2,
+                'back_id' => 2,
+                'cover_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -64,6 +70,9 @@ class KitchensTableSeeder extends Seeder
                 'status' => 'busy',
                 'active' => true,
                 'photo_id' => 3,
+                'front_id' => 3,
+                'back_id' => 3,
+                'cover_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now()
             ]

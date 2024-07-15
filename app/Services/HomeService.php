@@ -37,9 +37,14 @@ private  BannerService $bannerService;
         $result['banner']=$this->bannerService->search($fromJson);
         $result['kitchen']=$this->kitchenService->search($fromJson);
         $result['category']=$this->categoryService->search($fromJson);
-
         $result['food']=$this->foodService->search($fromJson);
+        $result['statistics']=$this->getStatistics();
         return $this->ok($result, 'records:create:done');
 
     }
+    public function getStatistics(): array
+    {
+        return ["orderCount"=>12,'clientCount'=>8];
+    }
+
 }

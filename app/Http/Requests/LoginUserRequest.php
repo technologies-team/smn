@@ -26,7 +26,7 @@ class LoginUserRequest extends FormRequest
             'email' => 'sometimes|required_without_all:phone,remember_token|string',
             'password' => 'sometimes|required_without_all:phone,remember_token|string',
             'phone' => 'sometimes|required_without_all:email,password|string',
-            'remember_token' => 'sometimes|required_without_all:name,phone|string',
+            'remember_token' => 'sometimes|required_without_all:email,phone|string',
         ];
     }
 }
