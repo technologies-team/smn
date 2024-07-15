@@ -56,6 +56,7 @@ class FeedBackRequest extends FormRequest
     {
         return [
             'message' => 'required|max:20000|string',
+            'rate' => 'required|int',
             'order_id' =>'required|int|exists:orders,id'
         ];
     }
