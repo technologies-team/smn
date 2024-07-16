@@ -17,6 +17,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -95,6 +96,8 @@ route::prefix('/food')->group(function () {
 });
 route::prefix('/options')->group(function () {
     CrudApi(OptionController::class);
+});route::prefix('/setting')->group(function () {
+    CrudApi(SettingController::class);
 });
 route::prefix('/tag')->group(function () {
     CrudApi(TagController::class);

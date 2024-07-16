@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FoodRequest extends FormRequest
+class KitchenSettingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -55,9 +55,15 @@ class FoodRequest extends FormRequest
     protected function storeRules(): array
     {
         return [
-            'title' => 'string|required',
-            'kitchen_id' => 'int|required|exists:kitchens,id',
-            'price'=>'int|required'
+            'kitchen_id'=>'required:exists:kitchens,id',
+            'delivery_type'=>'string',
+            'social.facebook'=>'string',
+            'social.website'=>'string',
+            'social.phone'=>'string',
+            'social.tiktok'=>'string',
+            'social.snap'=>'string',
+            'social.instagram'=>'string',
+            'social.x'=>'string'
         ];
     }
 
