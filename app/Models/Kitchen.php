@@ -59,5 +59,16 @@ protected $with=['photo','cover','idFront','idBack'];
     {
         return $this->belongsTo(Attachment::class,'front_id');
     }
+    public function setting(): HasOne
+    {
+        return $this->hasOne(KitchenSetting::class);
+    }   public function social(): HasOne
+    {
+        return $this->hasOne(KitchenSocialLink::class);
+    }   public function availability(): HasMany
+    {
+        return $this->HasMany(KitchenAvailability::class);
+    }
+
 
 }
