@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('kitchen_social_links', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('kitchen_id');
+
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->string('phone')->nullable();
             $table->string('snap')->nullable();
             $table->string('x')->nullable();
             $table->string('website')->nullable();
-            $table->unsignedBigInteger('kitchen_id');
-            $table->foreign('kitchen_id')->on('id')->references('kitchens')->onDelete('cascade');
+            $table->foreign('kitchen_id')->on('kitchens')->references('id')->onDelete('cascade');
 
             $table->timestamps();
         });
