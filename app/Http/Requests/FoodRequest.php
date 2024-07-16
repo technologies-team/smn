@@ -57,7 +57,7 @@ class FoodRequest extends FormRequest
         return [
             'title' => 'string|required',
             'kitchen_id' => 'int|required|exists:kitchens,id',
-            'price'=>'double|required'
+            'price' => 'required|numeric',
         ];
     }
 
