@@ -18,16 +18,12 @@ class OrderService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = [
-
-    ];
+    protected array $storables = ['user_id','status'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = [
-
-    ];
+    protected array $updatables = ['user_id','status'];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
@@ -36,7 +32,7 @@ class OrderService extends ModelService
     /**
      *
      */
-    protected array $with=['user','order'];
+    protected array $with=['user'];
 
     public function builder(): Builder
     {
@@ -55,7 +51,7 @@ class OrderService extends ModelService
     {
        $id= auth()->user()->getAuthIdentifier();
 
-
+        $attributes['user_id']=$id;
         return parent::store($attributes);
     }
 
