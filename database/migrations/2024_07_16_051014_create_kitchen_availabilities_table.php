@@ -16,9 +16,9 @@ return new class extends Migration {
             $table->foreignId('kitchen_id')->constrained()->onDelete('cascade');
             $table->enum('day', KitchenAvailability::DAYS);
             $table->unique(['kitchen_id', 'day']);
-            $table->time('start_time');
+            $table->time('start_time')->nullable();
             $table->boolean('is_available')->default(true);
-            $table->time('end_time');
+            $table->time('end_time')->nullable();
             $table->timestamps();
         });
     }
