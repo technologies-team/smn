@@ -102,11 +102,8 @@ class KitchenSettingService extends ModelService
                         'day' => $availability['day'],
                     ];
 
-                    $updates = [
-                        'start_time' => $availability['start_time'],
-                        'end_time' => $availability['end_time'],
-                    ];
-                    $data['availability'][] = $kitchen->availability()->updateOrCreate($forgin,$updates);
+
+                    $data['availability'][] = $kitchen->availability()->updateOrCreate($forgin,$availability);
 
                 }
 
