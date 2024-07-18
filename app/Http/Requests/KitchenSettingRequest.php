@@ -56,14 +56,14 @@ class KitchenSettingRequest extends FormRequest
     {
         return [
             'kitchen_id'=>'exists:kitchens,id',
-            'delivery_type'=>'string',
-            'social.facebook'=>'string',
-            'social.website'=>'string',
-            'social.phone'=>'string',
-            'social.tiktok'=>'string',
-            'social.snap'=>'string',
-            'social.instagram'=>'string',
-            'social.x'=>'string',
+            'delivery_type'=>'nullable|string',
+            'social.facebook'=>'nullable|string',
+            'social.website'=>'nullable|string',
+            'social.phone'=>'nullable|string',
+            'social.tiktok'=>'nullable|string',
+            'social.snap'=>'nullable|string',
+            'social.instagram'=>'nullable|string',
+            'social.x'=>'nullable|string',
             'availability.*.start_time' => 'nullable|date_format:H:i',
             'availability.*.end_time' => 'nullable|date_format:H:i|after:availability.*.start_time',
         ];

@@ -113,12 +113,18 @@ class KitchenSettingService extends ModelService
             }
             if ($attributes["setting"]) {
                 $setting = $attributes["setting"];
-                $data['setting'] = $kitchen->setting()->updateOrCreate($setting);
+                $forgin = [
+                    'kitchen_id' =>$kitchen->id];
+
+                $data['setting'] = $kitchen->setting()->updateOrCreate($forgin,$setting);
 
             }
             if ($attributes["social"]) {
                 $social = $attributes["social"];
-                $data['social'] = $kitchen->social()->updateOrCreate($social);
+                $forgin = [
+                    'kitchen_id' =>$kitchen->id];
+
+                $data['social'] = $kitchen->social()->updateOrCreate($forgin,$social);
 
             }
         }
