@@ -54,10 +54,10 @@ protected $with=['photo','cover','idFront','idBack'];
         return $this->belongsTo(Attachment::class,'cover_id');
     }  public function idFront(): BelongsTo
     {
-        return $this->belongsTo(Attachment::class,'back_id');
+        return $this->belongsTo(Attachment::class,'front_id');
     }  public function idBack(): BelongsTo
     {
-        return $this->belongsTo(Attachment::class,'front_id');
+        return $this->belongsTo(Attachment::class,'back_id');
     }
     public function setting(): HasOne
     {
