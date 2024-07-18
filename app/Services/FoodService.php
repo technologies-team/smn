@@ -7,8 +7,10 @@ namespace App\Services;
 use App\DTOs\Result;
 use App\Models\Banner;
 use App\Models\Food;
+use App\Models\Option;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class FoodService extends ModelService
 {
@@ -37,7 +39,8 @@ class FoodService extends ModelService
     /**
      *
      */
-    protected array $with = ['photo'];
+    protected array $with=['Option'];
+
 
     public function builder(): Builder
     {
@@ -52,7 +55,25 @@ class FoodService extends ModelService
 
         return parent::prepare($operation, $attributes);
     }
+public function store(array $attributes): Model
+{
 
+    $record= parent::store($attributes);
+    if($record instanceof Food){
+        if(isset($attributes['options'])){
+            foreach ($attributes['options'] as $option){
+                $options[$option["name"]]=$savedOption=$record->Option()->create($option);
+                if($savedOption instanceof Option){
+                    foreach ($option['choice'] as  $choice){
+                        $options[$option["name"]][$choice['name']] = $savedOption->choice()->create($choice);
+                    }
+                }
+
+            }
+        }
+    }
+    return $record;
+}
     /**
      * @throws Exception
      */
