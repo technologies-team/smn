@@ -99,6 +99,8 @@ route::prefix('/options')->group(function () {
 });route::prefix('/setting')->group(function () {
     CrudApi(SettingController::class);
 });
+Route::middleware('auth:sanctum')->get('/my-setting', [SettingController::class, 'my_setting']);
+
 route::prefix('/tag')->group(function () {
     CrudApi(TagController::class);
 });

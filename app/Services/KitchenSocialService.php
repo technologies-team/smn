@@ -22,7 +22,8 @@ class KitchenSocialService extends ModelService
         'instagram',
         'x',
         'website',
-        'phone'
+        'phone',
+        'tiktok'
     ];
 
     /**
@@ -33,7 +34,8 @@ class KitchenSocialService extends ModelService
         'instagram',
         'x',
         'website',
-        'phone'
+        'phone',
+        'tiktok'
     ];
 
     /**

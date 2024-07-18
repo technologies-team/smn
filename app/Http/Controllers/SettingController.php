@@ -15,4 +15,8 @@ class SettingController extends CrudController
         $this->service=$service;
         $this->Request=$Request;
     }
+    public function my_setting(): \App\Http\Responses\SuccessResponse
+    {
+        return$this->ok($this->service->setting());
+    }
 }

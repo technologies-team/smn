@@ -55,7 +55,7 @@ class KitchenSettingRequest extends FormRequest
     protected function storeRules(): array
     {
         return [
-            'kitchen_id'=>'required:exists:kitchens,id',
+            'kitchen_id'=>'exists:kitchens,id',
             'delivery_type'=>'string',
             'social.facebook'=>'string',
             'social.website'=>'string',

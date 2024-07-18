@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kitchens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->string('title_ar')->nullable();
             $table->text('description')->nullable();

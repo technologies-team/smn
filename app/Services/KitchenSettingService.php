@@ -11,6 +11,7 @@ use App\Models\Kitchen;
 use App\Models\KitchenAvailability;
 use App\Models\KitchenSetting;
 use App\Models\KitchenSocialLink;
+use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -34,6 +35,7 @@ class KitchenSettingService extends ModelService
     protected array $storables = [
         'kitchen_id',
         'delivery_type',
+        'pickup'
     ];
 
     /**
@@ -42,6 +44,7 @@ class KitchenSettingService extends ModelService
     protected array $updatables = [
         'kitchen_id',
         'delivery_type',
+        'pickup'
     ];
 
     /**
@@ -51,11 +54,27 @@ class KitchenSettingService extends ModelService
     /**
      *
      */
-    protected array $with = ['photo'];
 
     public function builder(): Builder
     {
         return KitchenSetting::query();
+    }
+
+    public function setting(): Result
+    {
+        $user = auth()->user();
+        if ($user instanceof User) {
+            $kitchen = $user->kitchen()->first();
+            if ($kitchen instanceof Kitchen) {
+                $data['setting'] = $kitchen->setting()->first();
+                $data['availability'] = $kitchen->availability()->get();
+                $data['social'] = $kitchen->social()->first();
+                return $this->ok($data, 'get kitchen setting done');
+            }
+        }
+
+        return $this->ok([], "you didn't have a kitchen ");
+
     }
 
     /**
@@ -66,30 +85,34 @@ class KitchenSettingService extends ModelService
 
         return parent::prepare($operation, $attributes);
     }
+
     public function create(array $attributes): Result
     {
-        $data=array();
-        $social=null;
-        $availability=null;
+        $data = array();
 
-        $kitchen=$this->kitchenService->find($attributes["kitchen_id"]);
-      if($kitchen instanceof Kitchen){
-          if(isset($attributes["availability"])){
-              $availability=$attributes["availability"];
-              $data['availability']= $kitchen->availability()->updateOrCreate($availability);
+        $user = auth()->user();
+        $kitchen = $user->kitchen()->first();
+        if ($kitchen instanceof Kitchen) {
+            if (isset($attributes["availability"])) {
+                $available = $attributes["availability"];
+                foreach ($available as $availability) {
+                    $data['availability'][] = $kitchen->availability()->updateOrCreate($availability);
 
-          }
-          if($attributes["social"]){
-              $social=$attributes["social"];
-              $data['social']= $kitchen->social()->updateOrCreate($social);
+                }
 
-          }    if($attributes["setting"]){
-              $setting=$attributes["setting"];
-              $data['setting']=KitchenSetting::updateOrCreate(  $setting);
+            }
+            if ($attributes["setting"]) {
+                $setting = $attributes["setting"];
+                $data['setting'] = $kitchen->setting()->updateOrCreate($setting);
 
-          }
-      }
-        return $this->ok($data,"record save done");
+            }
+            if ($attributes["social"]) {
+                $social = $attributes["social"];
+                $data['social'] = $kitchen->social()->updateOrCreate($social);
+
+            }
+        }
+        return $this->ok($data, "record save done");
     }
 
     /**

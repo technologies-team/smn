@@ -56,10 +56,10 @@ class KitchenRequest extends FormRequest
     {
         return [
             'user.name' => 'string',
-            'user.phone'=>'required|string|unique:users,phone',
-            'user.email' => 'required|string|unique:users,email|email',
-            'user.password' => 'string|required',
-            'kitchen_name'=>'required|string',
+            'user.phone'=>'string|unique:users,phone',
+            'user.email' => 'string|unique:users,email|email',
+            'user.password' => 'string',
+            'title'=>'required|string',
             'photo_id'=>'exists:attachments,id',
             'front_id'=>'exists:attachments,id',
             'back_id'=>'exists:attachments,id',

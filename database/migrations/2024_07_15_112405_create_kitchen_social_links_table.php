@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kitchen_social_links', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('kitchen_id');
+            $table->unsignedBigInteger('kitchen_id')->unique();
 
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('snap')->nullable();
             $table->string('x')->nullable();
             $table->string('website')->nullable();
+            $table->string('tiktok')->nullable();
             $table->foreign('kitchen_id')->on('kitchens')->references('id')->onDelete('cascade');
 
             $table->timestamps();

@@ -8,6 +8,7 @@ use App\Models\Banner;
 use App\Models\Kitchen;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class KitchenService extends ModelService
 {
@@ -92,6 +93,11 @@ class KitchenService extends ModelService
         }
         return $this->ok($this->update($id, $attributes), 'records:save:done');
 
+    }
+    public function store(array $attributes): Model
+    {
+        $attributes['user_id']=auth()->id();
+        return parent::store($attributes);
     }
 
     /**

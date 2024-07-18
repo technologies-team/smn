@@ -12,16 +12,13 @@ class KitchenSetting extends Model
 {
     use HasFactory;
 
-    const DELIVERY_TYPE = ['smn','pickup','kitchen'];
-    protected $fillable=['delivery_type','kitchen_id'];
+    const DELIVERY_TYPE = ['smn','kitchen'];
+    protected $fillable=['delivery_type','kitchen_id','pickup'];
 
     public function kitchen(): BelongsTo
     {
         return$this->belongsTo(Kitchen::class);
     }
-    public function availability(): HasMany
-    {
-        return $this->hasMany(KitchenAvailability::class);
-    }
+
 
 }

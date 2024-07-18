@@ -20,12 +20,12 @@ class KitchenAvailabilityService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['kitchen_id', 'day_of_week', 'start_time', 'end_time'];
+    protected array $storables = ['kitchen_id', 'day', 'start_time', 'end_time','is_available'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['kitchen_id', 'day_of_week', 'start_time', 'end_time'];
+    protected array $updatables = ['kitchen_id', 'day', 'start_time', 'end_time','is_available'];
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
      */
@@ -51,6 +51,7 @@ class KitchenAvailabilityService extends ModelService
 public function store(array $attributes): Model
 {
     try {
+
         $record =parent::store($attributes);
     } catch (QueryException $e) {
         if ($e->errorInfo[1] != 1062) {
@@ -58,15 +59,14 @@ public function store(array $attributes): Model
         }
         else{
 
-            KitchenAvailability::where('day', $attributes)->update(['user_id' => $user->id]);
+            $record=KitchenAvailability::where('day', $attributes)->where()->update($attributes['availability']);
         }
     }
     catch (\Exception $e){
         dd($e->getMessage());
     }
+    return $record;
+
 
 }
-    /**
-     * @throws Exception
-     */
 }
