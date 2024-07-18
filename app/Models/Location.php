@@ -10,4 +10,7 @@ class Location extends Model
     protected $fillable=[
         'title','street1', 'street2' ,'longitude','phone','verified', 'latitude', 'user_id','country','city'
     ];
+    protected $casts = [
+        'verified' => 'boolean',
+    ];
 }
