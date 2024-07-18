@@ -64,8 +64,8 @@ class KitchenSettingRequest extends FormRequest
             'social.snap'=>'nullable|string',
             'social.instagram'=>'nullable|string',
             'social.x'=>'nullable|string',
-            'availability.*.start_time' => 'nullable|date_format:H:i',
-            'availability.*.end_time' => 'nullable|date_format:H:i|after:availability.*.start_time',
+            'availability.*.start_time' => 'nullable|string',
+            'availability.*.end_time' => 'nullable|string|after:availability.*.start_time',
         ];
     }
 
