@@ -63,7 +63,9 @@ class KitchenSettingRequest extends FormRequest
             'social.tiktok'=>'string',
             'social.snap'=>'string',
             'social.instagram'=>'string',
-            'social.x'=>'string'
+            'social.x'=>'string',
+            'availability.*.start_time' => 'required|date_format:H:i',
+            'availability.*.end_time' => 'required|date_format:H:i|after:availability.*.start_time',
         ];
     }
 

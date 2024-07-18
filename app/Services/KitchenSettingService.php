@@ -96,7 +96,16 @@ class KitchenSettingService extends ModelService
             if (isset($attributes["availability"])) {
                 $available = $attributes["availability"];
                 foreach ($available as $availability) {
-                    $data['availability'][] = $kitchen->availability()->updateOrCreate($availability);
+                    $forgin = [
+                        'kitchen_id' =>$kitchen->id,
+                        'day' => $availability['day'],
+                    ];
+
+                    $updates = [
+                        'start_time' => $availability['start_time'],
+                        'end_time' => $availability['end_time'],
+                    ];
+                    $data['availability'][] = $kitchen->availability()->updateOrCreate($forgin,$updates);
 
                 }
 
