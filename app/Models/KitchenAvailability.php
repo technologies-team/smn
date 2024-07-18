@@ -12,5 +12,8 @@ class KitchenAvailability extends Model
     const DAYS=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     protected $casts = [
         'is_available' => 'boolean',
+        'start_time'=>'datetime:H:i',
+        'end_time'=>'datetime:H:i'
     ];
+
 }

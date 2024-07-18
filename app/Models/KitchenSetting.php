@@ -12,7 +12,7 @@ class KitchenSetting extends Model
 {
     use HasFactory;
 
-    const DELIVERY_TYPE = ['smn','kitchen'];
+    const DELIVERY_TYPE = ['SMN','Kitchen'];
     protected $fillable=['delivery_type','kitchen_id','pickup'];
     protected $casts = [
         'pickup' => 'boolean',
