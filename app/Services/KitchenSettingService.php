@@ -91,6 +91,7 @@ class KitchenSettingService extends ModelService
         $data = array();
 
         $user = auth()->user();
+        if ($user instanceof User)
         $kitchen = $user->kitchen()->first();
         if ($kitchen instanceof Kitchen) {
             if (isset($attributes["availability"])) {
