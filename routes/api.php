@@ -14,6 +14,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
@@ -98,6 +99,9 @@ route::prefix('/options')->group(function () {
     CrudApi(OptionController::class);
 });route::prefix('/setting')->group(function () {
     CrudApi(SettingController::class);
+});
+route::prefix('/offer')->group(function () {
+    CrudApi(OfferController::class);
 });
 Route::middleware('auth:sanctum')->get('/my-setting', [SettingController::class, 'my_setting']);
 

@@ -10,7 +10,7 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable=['user_id','status'];
-    const STATUS=['waiting','cooking','ready_to_delivery','cansel','reject','complete'];
+    const STATUS=['waiting','cooking','ready_to_delivery','cancel','reject','complete'];
     public function user(): BelongsTo
     {
       return  $this->belongsTo(User::class);

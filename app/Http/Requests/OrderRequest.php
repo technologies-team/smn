@@ -55,6 +55,7 @@ class OrderRequest extends FormRequest
     protected function storeRules(): array
     {
         return [
+            'status' => 'in:waiting,cooking,ready_to_delivery,cancel,reject,complete',
 
         ];
     }
@@ -62,6 +63,7 @@ class OrderRequest extends FormRequest
     private function updateRules(): array
     {
         return [
+            'status' => 'required|in:waiting,cooking,ready_to_delivery,cancel,reject,complete',
 
         ];
     }
