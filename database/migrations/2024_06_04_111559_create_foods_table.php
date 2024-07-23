@@ -26,7 +26,7 @@ return new class extends Migration
             $table->json("ingredients")->nullable();
             $table->decimal('price', 10, 2);
             $table->unsignedBigInteger('kitchen_id');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('tag_id')->nullable();
             $table->unsignedBigInteger('photo_id')->nullable();
             $table->integer('rewards')->nullable();
