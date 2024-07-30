@@ -21,9 +21,14 @@ class CartController extends CrudController
     /**
      * @throws Exception
      */
-    public function addToCart(CartRequest $Request): SuccessResponse
+    public function addToCart($id,CartRequest $Request): SuccessResponse
     {
         return $this->ok($this->service->addToCart($Request->all()));
+    }
+
+    public function viewCart($id): SuccessResponse
+    {
+        return $this->ok($this->service->viewCart($id));
     }
 
 }

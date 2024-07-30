@@ -121,9 +121,7 @@ class CartsItemService extends ModelService
     {
         $food = $this->foodService->find($attributes["food_id"]);
 
-        $attributes["price"] = $food->price;
-        $attributes["total_price"] = $food->price * $attributes["quantity"];
-
+$price=$food->price;
         $conditions = [
             'food_id' => $attributes['food_id'],
             'cart_id' => $attributes['cart_id']
@@ -134,10 +132,15 @@ class CartsItemService extends ModelService
                 if($option instanceof Option){
                     $parent=$this->optionService->find($option->parent_id);
                     $options[$parent->name]=$option->name;
+                    $price +=$option->price;
                 }
             }
+
             $attributes["options"] = json_encode($options);
         }
+        $attributes['price']=$price;
+        $attributes["total_price"] = $attributes["price"] * $attributes["quantity"];
+
         $updateAttributes = array_diff_key($attributes, $conditions);
 
         return $this->builder()->updateOrCreate($conditions, $updateAttributes);

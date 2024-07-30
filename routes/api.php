@@ -85,7 +85,8 @@ Route::prefix('/user')->group(function () {
     });
     route::prefix('/cart')->group(function () {
         CrudApi(CartController::class);
-        Route::middleware('auth:sanctum')->post('/add',  [CartController::class, 'addToCart']);
+        Route::middleware('auth:sanctum')->post('/add/{id}',  [CartController::class, 'addToCart']);
+        Route::middleware('auth:sanctum')->get('/view/{id}',  [CartController::class, 'addToCart']);
 
     });
 });

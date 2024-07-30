@@ -117,12 +117,14 @@ class CartsService extends ModelService
                 ];
                 $cart = $this->store($newCart);
             }
-            $foodCart["cart_id"] = $cart->id;
-            $cart->item()->delete();
+        }
 
-            $item=$storedItems[]= $this->cartsItemService->store($foodCart);
-        $total=$total+$item->total_price;
-        $price=$price+$item->price;
+        $cart->item()->delete();
+        foreach ($attributes['foods'] as $food){
+            $food["cart_id"] = $cart->id;
+            $item=$storedItems[]= $this->cartsItemService->store($food);
+            $total=$total+$item->total_price;
+            $price=$price+$item->price;
         }
         $new_attributes=[
           'price'=>$price,
@@ -147,5 +149,10 @@ class CartsService extends ModelService
             ->where($field, '=', $kitchen_id)
             ->where('user_id', $user_id)
             ->first();
+    }
+
+    public function viewCart($kitchen_id): Result
+    {
+        return $this->ok('',);
     }
 }

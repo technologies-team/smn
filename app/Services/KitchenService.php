@@ -70,7 +70,7 @@ class KitchenService extends ModelService
     /**
      *
      */
-    protected array $with = ['tags', 'user', 'photo', 'cover','idFront','idBack'];
+    protected array $with = ['tags', 'user', 'photo', 'cover','idFront','idBack','foods'];
 
     public function builder(): Builder
     {
