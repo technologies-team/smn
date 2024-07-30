@@ -99,11 +99,12 @@ class CartsService extends ModelService
     public function addToCart(array $attributes): Result
     {
         $user = $this->getUser();
-        $attributes['user_id'] = $user->id;
         $cart = null;
         $items=array();
         $total=0;
         $price=0;
+        $storedItems=array();
+
         foreach ($attributes['foods'] as $foodCart) {
 
             $food = $this->foodService->find($foodCart['food_id']);
@@ -114,14 +115,15 @@ class CartsService extends ModelService
                     'user_id' => $user->id,
                     'kitchen_id' => $kitchen_id
                 ];
-                $cart = $this->create($newCart);
+                $cart = $this->store($newCart);
             }
             $foodCart["cart_id"] = $cart->id;
-           $item=$items[]= $this->cartsItemService->store($foodCart);
+            $cart->item()->delete();
+
+            $item=$storedItems[]= $this->cartsItemService->store($foodCart);
         $total=$total+$item->total_price;
         $price=$price+$item->price;
         }
-
         $new_attributes=[
           'price'=>$price,
           'total_price'=>$total

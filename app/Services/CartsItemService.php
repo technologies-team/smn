@@ -8,6 +8,7 @@ use App\DTOs\Result;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Offer;
+use App\Models\Option;
 use App\Models\User;
 use Exception;
 use GuzzleHttp\Promise\Tests\Thing1;
@@ -16,10 +17,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class CartsItemService extends ModelService
 {
-    protected FoodService  $foodService;
-    public function __construct(FoodService  $foodService){
-        $this->foodService=$foodService;
+    protected FoodService $foodService;
+    protected OptionService $optionService;
+
+    public function __construct(FoodService $foodService,OptionService $optionService)
+    {
+        $this->foodService = $foodService;
+        $this->optionService = $optionService;
     }
+
     /**
      * storable field is a field which can be filled during creating the record
      */
@@ -39,7 +45,7 @@ class CartsItemService extends ModelService
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = [ 'tax',
+    protected array $updatables = ['tax',
         'food_id',
         'cart_id',
         'coupon_id',
@@ -50,16 +56,17 @@ class CartsItemService extends ModelService
         'options',
         'total_discount',
         'quantity',];
-/**
- * *
-**/
-    protected array $with = [];
+    /**
+     * *
+     **/
+    protected array $with = ['parent'];
 
     public function builder(): Builder
     {
         return CartItem::query();
     }
-        public function getUserCart(): Cart
+
+    public function getUserCart(): Cart
     {
         $user_id = auth()->user()->getAuthIdentifier();
 
@@ -109,6 +116,7 @@ class CartsItemService extends ModelService
         }
         return 0;
     }
+
     public function store(array $attributes): Model
     {
         $food = $this->foodService->find($attributes["food_id"]);
@@ -120,7 +128,16 @@ class CartsItemService extends ModelService
             'food_id' => $attributes['food_id'],
             'cart_id' => $attributes['cart_id']
         ];
-
+        if (isset($attributes["options"])) {
+            foreach ($attributes["options"] as $id){
+                $option=$this->optionService->find($id);
+                if($option instanceof Option){
+                    $parent=$this->optionService->find($option->parent_id);
+                    $options[$parent->name]=$option->name;
+                }
+            }
+            $attributes["options"] = json_encode($options);
+        }
         $updateAttributes = array_diff_key($attributes, $conditions);
 
         return $this->builder()->updateOrCreate($conditions, $updateAttributes);

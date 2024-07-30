@@ -13,7 +13,7 @@ class KitchensTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {   Schema::disableForeignKeyConstraints();
         DB::table('kitchens')->truncate();
         Schema::enableForeignKeyConstraints();

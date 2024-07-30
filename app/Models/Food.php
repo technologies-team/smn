@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use PHPUnit\TestFixture\StackTest;
 
+/**
+ * @method static find($food_id)
+ */
 class Food extends Model
 {
     protected $table="foods";

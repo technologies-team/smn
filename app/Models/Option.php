@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Option extends Model
 {
@@ -19,6 +20,9 @@ class Option extends Model
     public function choice(): HasMany
     {
         return $this->hasMany(Option::class,'parent_id');
+    }    public function parent(): HasOne
+    {
+        return $this->hasOne(Option::class,'parent_id');
     }
     public function food(): BelongsTo
     {
