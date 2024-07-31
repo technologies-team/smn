@@ -85,20 +85,23 @@ Route::prefix('/user')->group(function () {
     });
     route::prefix('/cart')->group(function () {
         CrudApi(CartController::class);
-        Route::middleware('auth:sanctum')->post('/add/{id}',  [CartController::class, 'addToCart']);
-        Route::middleware('auth:sanctum')->get('/view/{id}',  [CartController::class, 'addToCart']);
+        Route::middleware('auth:sanctum')->post('/add/{id}', [CartController::class, 'addToCart']);
+        Route::middleware('auth:sanctum')->get('/view/{id}', [CartController::class, 'viewCart']);
+        Route::middleware('auth:sanctum')->delete('/clear/{id}', [CartController::class, 'clearCart']);
 
     });
 });
 
 route::prefix('/food')->group(function () {
     CrudApi(FoodController::class);
-});route::prefix('/order')->group(function () {
+});
+route::prefix('/order')->group(function () {
     CrudApi(OrderController::class);
 });
 route::prefix('/options')->group(function () {
     CrudApi(OptionController::class);
-});route::prefix('/setting')->group(function () {
+});
+route::prefix('/setting')->group(function () {
     CrudApi(SettingController::class);
 });
 route::prefix('/offer')->group(function () {
@@ -115,21 +118,22 @@ route::prefix('/categories')->group(function () {
 route::prefix('/attachment')->group(function () {
     CrudApi(AttachmentController::class);
 
-});route::prefix('/home')->group(function () {
+});
+route::prefix('/home')->group(function () {
     Route::get('/kitchen', [HomeController::class, 'kitchenHome']);
     Route::get('/', [HomeController::class, 'index']);
 });
-Route::get('/attachment/download/{name}',  [AttachmentController::class, 'download']);
+Route::get('/attachment/download/{name}', [AttachmentController::class, 'download']);
 
 Route::Resource('banner', BannerController::class);
 //payment method url
-Route::middleware('auth:sanctum')->group(function (){
+Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/payment/intent', [PaymentController::class, 'createPaymentIntent']);
     Route::post('/webhook/stripe', [PaymentController::class, 'webhook']);
 
 });
-    Route::post('/payment/callback', [PaymentController::class, 'webhook']);
+Route::post('/payment/callback', [PaymentController::class, 'webhook']);
 
 
 Route::prefix('/coupon')->group(function () {

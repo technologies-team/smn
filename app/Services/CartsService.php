@@ -7,6 +7,7 @@ namespace App\Services;
 use App\DTOs\Result;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Food;
 use App\Models\User;
 use Exception;
 use GuzzleHttp\Promise\Tests\Thing1;
@@ -96,41 +97,41 @@ class CartsService extends ModelService
     /**
      * @throws Exception
      */
-    public function addToCart(array $attributes): Result
+    public function addToCart($id, array $attributes): Result
     {
         $user = $this->getUser();
         $cart = null;
-        $items=array();
-        $total=0;
-        $price=0;
-        $storedItems=array();
+        $items = array();
+        $total = 0;
+        $price = 0;
+        $storedItems = array();
+        $cart = $this->getCartBy("kitchen_id", $id, $user->id);
+        if (!$cart instanceof Cart) {
+            $newCart = [
+                'user_id' => $user->id,
+                'kitchen_id' => $id
+            ];
+            $cart = $this->store($newCart);
+        }
+        if (is_array($attributes['foods']) && !empty($attributes['foods'])) {
 
-        foreach ($attributes['foods'] as $foodCart) {
+            foreach ($attributes['foods'] as $food) {
+                $food["cart_id"] = $cart->id;
+                $cart->item()->where("food_id", $food['food_id'])->delete();
+                $this->cartsItemService->store($food);
 
-            $food = $this->foodService->find($foodCart['food_id']);
-            $kitchen_id = $food->kitchen_id;
-            $cart = $this->getCartBy("kitchen_id", $kitchen_id, $user->id);
-            if (!$cart instanceof Cart) {
-                $newCart = [
-                    'user_id' => $user->id,
-                    'kitchen_id' => $kitchen_id
-                ];
-                $cart = $this->store($newCart);
+            }
+            foreach ($cart->item()->get() as $item) {
+
+                $total = $total + $item->total_price;
+                $price = $price + $item->price;
             }
         }
-
-        $cart->item()->delete();
-        foreach ($attributes['foods'] as $food){
-            $food["cart_id"] = $cart->id;
-            $item=$storedItems[]= $this->cartsItemService->store($food);
-            $total=$total+$item->total_price;
-            $price=$price+$item->price;
-        }
-        $new_attributes=[
-          'price'=>$price,
-          'total_price'=>$total
+        $new_attributes = [
+            'price' => $price,
+            'total_price' => $total
         ];
-        return $this->ok($this->update($cart->id,$new_attributes), "added to cart");
+        return $this->ok($this->update($cart->id, $new_attributes), "added to cart");
     }
 
     /**
@@ -153,6 +154,24 @@ class CartsService extends ModelService
 
     public function viewCart($kitchen_id): Result
     {
-        return $this->ok('',);
+        $id = auth()->id();
+        $cart = $this->getCartBy("kitchen_id", $kitchen_id, $id,);
+        if (!$cart instanceof Cart) {
+            return $this->ok([], "Empty Cart");
+
+        }
+        return $this->ok($cart, "cart get done");
     }
+
+    public function clearCart($kitchen_id): Result
+    {
+        $id = auth()->id();
+        $cart = $this->getCartBy("kitchen_id", $kitchen_id, $id);
+        if ($cart instanceof Cart) {
+            return $this->ok($cart->item()->delete(), "done clear cart");
+        }
+        return $this->ok($cart, "cart not exists");
+    }
+
+
 }

@@ -20,7 +20,7 @@ class CartsItemService extends ModelService
     protected FoodService $foodService;
     protected OptionService $optionService;
 
-    public function __construct(FoodService $foodService,OptionService $optionService)
+    public function __construct(FoodService $foodService, OptionService $optionService)
     {
         $this->foodService = $foodService;
         $this->optionService = $optionService;
@@ -121,26 +121,28 @@ class CartsItemService extends ModelService
     {
         $food = $this->foodService->find($attributes["food_id"]);
 
-$price=$food->price;
+        $price = $food->price;
         $conditions = [
             'food_id' => $attributes['food_id'],
             'cart_id' => $attributes['cart_id']
         ];
         if (isset($attributes["options"])) {
-            foreach ($attributes["options"] as $id){
-                $option=$this->optionService->find($id);
-                if($option instanceof Option){
-                    $parent=$this->optionService->find($option->parent_id);
-                    $options[$parent->name]=$option->name;
-                    $price +=$option->price;
+            foreach ($attributes["options"] as $id) {
+                $option = $this->optionService->find($id);
+                if ($option instanceof Option) {
+                    $parent = $this->optionService->find($option->parent_id);
+                    $options[$parent->name] = $option->name;
+                    $price += $option->price;
                 }
             }
 
             $attributes["options"] = json_encode($options);
         }
-        $attributes['price']=$price;
+        $attributes['price'] = $price;
         $attributes["total_price"] = $attributes["price"] * $attributes["quantity"];
-
+        if ($attributes["quantity"] <= 0) {
+            return $food;
+        }
         $updateAttributes = array_diff_key($attributes, $conditions);
 
         return $this->builder()->updateOrCreate($conditions, $updateAttributes);
