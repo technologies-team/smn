@@ -20,7 +20,7 @@ class Food extends Model
     protected $fillable=[
         'title', 'title_ar', 'description_ar', 'weight', 'deliverable', 'unit', 'preparation_time',
         'ingredients', 'price', 'kitchen_id', 'category_id', 'rewards',
-        'photo_id', 'description','status'
+        'photo_id', 'description','status','tag_id'
     ];
     protected $with=['Option','photo','kitchen'];
     public function photo(): BelongsTo
