@@ -22,7 +22,7 @@ class Food extends Model
         'ingredients', 'price', 'kitchen_id', 'category_id', 'rewards',
         'photo_id', 'description','status'
     ];
-    protected $with=['Option','photo'];
+    protected $with=['Option','photo','kitchen'];
     public function photo(): BelongsTo
     {
         return $this->belongsTo(Attachment::class, 'photo_id');
@@ -30,5 +30,9 @@ class Food extends Model
     public function Option(): HasMany
     {
         return $this->hasMany(Option::class);
+    }
+    public function kitchen(): BelongsTo
+    {
+        return $this->belongsTo(Kitchen::class);
     }
 }

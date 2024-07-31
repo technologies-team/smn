@@ -30,7 +30,7 @@ protected $table="kitchens";
         'back_id',
         'cover_id'
     ];
-protected $with=['tags', 'user', 'photo', 'cover','idFront','idBack','foods'];
+protected $with=['photo', 'cover'];
 
     public function user(): BelongsTo
     {
@@ -38,10 +38,14 @@ protected $with=['tags', 'user', 'photo', 'cover','idFront','idBack','foods'];
     }
 
     // Relationship with Food
-    public function food(): HasMany
+    public function foods(): HasMany
     {
         return $this->hasMany(Food::class);
-    }public function tags(): HasMany
+    } public function food(): HasMany
+    {
+        return $this->hasMany(Food::class);
+    }
+    public function tags(): HasMany
     {
         return $this->hasMany(Tag::class);
     }
