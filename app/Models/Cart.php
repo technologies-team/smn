@@ -5,11 +5,10 @@ namespace App\Models;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/**
- * @method items()
- */
+
 class Cart extends Model
 {
     use HasFactory;
@@ -29,12 +28,15 @@ class Cart extends Model
         'coupon_id',
         'offer_id',
     ];
-protected  $hidden=['session_id'];
-protected $with=['item'];
-public function item(): HasMany
-{
-    return $this->hasMany(CartItem::class);
-}
+    protected $hidden = ['session_id'];
+    protected $with = ['item',];
+
+    public function item(): HasMany
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+
 
     /**
      * @throws Exception

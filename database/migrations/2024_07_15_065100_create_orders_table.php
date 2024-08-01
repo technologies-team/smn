@@ -16,6 +16,17 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->enum('status', Order::STATUS)->default(Order::STATUS[0]);
+            $table->double('price')->nullable();
+            $table->double('total_price')->nullable();
+            $table->double('rewards')->nullable();
+            $table->double('total_rewards')->nullable();
+            $table->double('discount')->default(0);
+            $table->double('total_discount')->default(0);
+            $table->double('total_fee')->default(0);
+            $table->double('shipping')->default(0);
+            $table->double('total_shipping')->default(0);
+            $table->string('notes')->default('');
+            $table->string('payment_method');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

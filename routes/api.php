@@ -84,7 +84,6 @@ Route::prefix('/user')->group(function () {
         CrudApi(LocationController::class);
     });
     route::prefix('/cart')->group(function () {
-        CrudApi(CartController::class);
         Route::middleware('auth:sanctum')->post('/add/{id}', [CartController::class, 'addToCart']);
         Route::middleware('auth:sanctum')->get('/view/{id}', [CartController::class, 'viewCart']);
         Route::middleware('auth:sanctum')->delete('/clear/{id}', [CartController::class, 'clearCart']);
@@ -96,7 +95,9 @@ route::prefix('/food')->group(function () {
     CrudApi(FoodController::class);
 });
 route::prefix('/order')->group(function () {
-    CrudApi(OrderController::class);
+    Route::middleware('auth:sanctum')->post('/{id}', [OrderController::class, 'confirmOrder']);
+    Route::middleware('auth:sanctum')->get('/view/{id}', [CartController::class, 'viewCart']);
+    Route::middleware('auth:sanctum')->delete('/clear/{id}', [CartController::class, 'clearCart']);
 });
 route::prefix('/options')->group(function () {
     CrudApi(OptionController::class);

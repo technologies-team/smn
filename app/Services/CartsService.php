@@ -66,7 +66,7 @@ class CartsService extends ModelService
     /**
      * *
      **/
-    protected array $with = [];
+    protected array $with =[];
 
     public function builder(): Builder
     {
@@ -80,17 +80,24 @@ class CartsService extends ModelService
     {
         $user = $this->getUser();
         if ($user instanceof User) {
-            $cart = $user->carts()->first();
+            $cart = $this->getCartBy("kitchen_id", $kitchen_id, $user->id);
             if ($cart instanceof Cart) {
                 return $cart;
             } else {
-                $attributes["user_id"] = $user->id;
-                // $cart = $this->cartsService->store($attributes);
-                if ($cart instanceof Cart) {
-                    return $cart;
-                }
+
+                $newCart = [
+                    'user_id' => $user->id,
+                    'kitchen_id' => $kitchen_id
+                ];
+                $cart = $this->store($newCart);
+            }
+            $attributes["user_id"] = $user->id;
+            // $cart = $this->cartsService->store($attributes);
+            if ($cart instanceof Cart) {
+                return $cart;
             }
         }
+
         throw new Exception("there is user error");
     }
 
@@ -105,14 +112,7 @@ class CartsService extends ModelService
         $total = 0;
         $price = 0;
         $storedItems = array();
-        $cart = $this->getCartBy("kitchen_id", $id, $user->id);
-        if (!$cart instanceof Cart) {
-            $newCart = [
-                'user_id' => $user->id,
-                'kitchen_id' => $id
-            ];
-            $cart = $this->store($newCart);
-        }
+        $cart = $this->getUserCart($id);
         if (is_array($attributes['foods']) && !empty($attributes['foods'])) {
 
             foreach ($attributes['foods'] as $food) {

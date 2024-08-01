@@ -40,7 +40,7 @@ class FoodService extends ModelService
     /**
      *
      */
-    protected array $with=['Option','kitchen'];
+    protected array $with=['option','kitchen'];
 
 
     public function builder(): Builder

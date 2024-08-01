@@ -22,12 +22,12 @@ class Food extends Model
         'ingredients', 'price', 'kitchen_id', 'category_id', 'rewards',
         'photo_id', 'description','status','tag_id'
     ];
-    protected $with=['Option','photo','kitchen'];
+    protected $with=['option','photo','kitchen'];
     public function photo(): BelongsTo
     {
         return $this->belongsTo(Attachment::class, 'photo_id');
     }
-    public function Option(): HasMany
+    public function option(): HasMany
     {
         return $this->hasMany(Option::class);
     }
