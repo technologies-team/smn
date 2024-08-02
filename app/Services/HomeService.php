@@ -44,6 +44,18 @@ private  BannerService $bannerService;
         return $this->ok($result, 'records:create:done');
 
     }
+
+    /**
+     * @throws Exception
+     */
+    public function search($fromJson): Result
+    {
+        $result['kitchen']=$this->kitchenService->search($fromJson);
+        $result['category']=$this->categoryService->search($fromJson);
+        $result['food']=$this->foodService->search($fromJson);
+        return $this->ok($result, 'records:create:done');
+
+    }
     public function getStatistics(): array
     {
         return ["orderCount"=>12,'clientCount'=>8];

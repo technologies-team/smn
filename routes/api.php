@@ -123,6 +123,7 @@ route::prefix('/attachment')->group(function () {
 route::prefix('/home')->group(function () {
     Route::get('/kitchen', [HomeController::class, 'kitchenHome']);
     Route::get('/', [HomeController::class, 'index']);
+    Route::get('/search', [HomeController::class, 'search']);
 });
 Route::get('/attachment/download/{name}', [AttachmentController::class, 'download']);
 

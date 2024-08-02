@@ -19,9 +19,11 @@ return new class extends Migration
             $table->string("old_status");
             $table->string("reason")->nullable();
             $table->string("notes")->nullable();
-            $table->foreign("order_id")->references("id")->on("orders")->onDelete("cascade");
             $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade");
-            $table->timestamps();        });
+
+            $table->foreign("order_id")->references("id")->on("orders")->onDelete("cascade");
+            $table->timestamps();
+        });
     }
 
     /**

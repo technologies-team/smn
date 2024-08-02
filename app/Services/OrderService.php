@@ -11,6 +11,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\ClientFeedback;
 use App\Models\Food;
+use App\Models\Location;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderLog;
@@ -48,12 +49,14 @@ class OrderService extends ModelService
     protected OrderDetailService $detailService;
     protected OrderLogService $logService;
     protected CartsService $cartsService;
+    protected LocationService $locationService;
 
-    public function __construct(OrderDetailService $detailService, OrderLogService $logService, CartsService $cartsService)
+    public function __construct(OrderDetailService $detailService, OrderLogService $logService, CartsService $cartsService, LocationService $locationService)
     {
         $this->logService = $logService;
         $this->detailService = $detailService;
         $this->cartsService = $cartsService;
+        $this->locationService = $locationService;
     }
 
     /**
@@ -61,14 +64,17 @@ class OrderService extends ModelService
      */
     public function createOrder($kitchen_id, $attributes): Result
     {
-        $this->checkLocation($attributes["location_id"]);
+        $location = $this->locationService->find($attributes['location_id']);
+        if (!$this->checkLocation($location)) {
+            throw  new Exception("not valid location ");
+        }
         $cart = $this->cartsService->getUserCart($kitchen_id);
 
         $items = $cart->item()->without("kitchen")->get();
+
         if (empty($items)) {
             return $this->ok([], "cart is empty");
         }
-
         $attributes["price"] = $cart->price;
         $attributes["total_price"] = $cart->total_price;
         //when we add shipping
@@ -79,8 +85,9 @@ class OrderService extends ModelService
         $order = $this->store($attributes);
         if ($order instanceof Order) {
             $details = array();
-            $details[''];
-            $order->orderDetail()->create();
+            $details['location'] = json_encode($location);
+            $details['items'] = json_encode($items);
+            $order->orderDetail()->create($details);
         }
         foreach ($items as $item) {
             unset($item->food->option);
@@ -107,10 +114,15 @@ class OrderService extends ModelService
         return parent::store($attributes);
     }
 
-    private function checkLocation($location_id)
+    protected function checkLocation($location): bool
     {
+        if ($location instanceof Location) {
 
+            return true;
+        }
+        return false;
     }
+
     public function isLocationInDubai($long, $lat): bool
     {
 

@@ -66,7 +66,7 @@ class KitchenService extends ModelService
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
      */
-    protected array $searchables = ['title',];
+    protected array $searchables = ['title','title_ar'];
     /**
      *
      */

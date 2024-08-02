@@ -16,7 +16,7 @@ class CategoryService extends ModelService
      * storable field is a field which can be filled during creating the record
      */
     protected array $storables = [
-        'title',
+        'title','title_ar',
         'photo_id', 'description'
     ];
 
@@ -24,14 +24,14 @@ class CategoryService extends ModelService
      * updatable field is a field which can be filled during updating the record
      */
     protected array $updatables = [
-        'title',
+        'title','title_ar',
         'photo_id', 'description'
     ];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
      */
-    protected array $searchables = ['title',];
+    protected array $searchables = ['title','title_ar'];
     /**
      *
      */
