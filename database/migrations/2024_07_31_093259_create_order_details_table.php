@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("order_id");
 
             $table->text("items");
-            $table->text("location");
+            $table->text("location")->nullable();
             $table->text('coupon')->nullable();
             $table->text('offer')->nullable();
             $table->timestamps();

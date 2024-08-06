@@ -59,7 +59,7 @@ class CartsItemService extends ModelService
     /**
      * *
      **/
-    protected array $with = ['parent'];
+    protected array $with = [];
 
     public function builder(): Builder
     {

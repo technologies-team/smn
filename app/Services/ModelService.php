@@ -23,7 +23,7 @@ abstract class ModelService extends Service
     protected array $updatables = [];
 
     /**
-     * searchable field is a field which can be search for from keyword parameter in search method
+     * searchable field is a field which can be searched for from keyword parameter in search method
      */
     protected array $searchables = [];
 
@@ -44,7 +44,7 @@ abstract class ModelService extends Service
     {
         $fillables = $operation === 'store' ? $this->storables : $this->updatables;
         $result = array_merge([], $attributes);
-        $result = $result ? $result : [];
+        $result = $result ?: [];
         return array_filter($result, fn ($key) => in_array($key, $fillables), ARRAY_FILTER_USE_KEY);
     }
 

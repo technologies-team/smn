@@ -66,7 +66,7 @@ class CartsService extends ModelService
     /**
      * *
      **/
-    protected array $with =[];
+    protected array $with = [];
 
     public function builder(): Builder
     {
@@ -117,14 +117,18 @@ class CartsService extends ModelService
 
             foreach ($attributes['foods'] as $food) {
                 $food["cart_id"] = $cart->id;
-                $cart->item()->where("food_id", $food['food_id'])->delete();
+                $item = $cart->item()->where("food_id", $food['food_id'])->first();
+                if ($item instanceof CartItem) {
+
+                    $this->cartsItemService->update($item->id, $food);
+                }
                 $this->cartsItemService->store($food);
 
             }
             foreach ($cart->item()->get() as $item) {
 
                 $total = $total + $item->total_price;
-                $price = $price + $item->price;
+                $price = $price + ($item->price * $item->quantity);
             }
         }
         $new_attributes = [

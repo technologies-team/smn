@@ -55,8 +55,8 @@ class OrderRequest extends FormRequest
     protected function storeRules(): array
     {
         return [
-            'status' => 'in:waiting,cooking,ready_to_delivery,cancel,reject,complete',
-
+            'delivery_type' => 'required|string',
+            'location_id' => 'required_if:delivery_type,delivery',
         ];
     }
 

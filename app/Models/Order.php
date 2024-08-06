@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * @method static whereDate(string $string, \Carbon\Carbon $currentDate)
+ */
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable=['user_id','status'];
+    protected $fillable=['user_id','status','payment_method'];
     const STATUS=['waiting','cooking','ready_to_delivery','cancel','reject','complete'];
     public function user(): BelongsTo
     {
