@@ -10,21 +10,27 @@ use Exception;
 
 class CouponController extends Controller
 {
-    protected CouponService $service ;
+    protected CouponService $service;
     protected OfferRequest $Request;
-    public function __construct(CouponService $bannerService){
-        $this->service= $bannerService;
-    }
-    public function apply(CouponRequest $request): SuccessResponse
+
+    public function __construct(CouponService $bannerService)
     {
-        return $this->ok($this->service->apply($request->all()));
+        $this->service = $bannerService;
     }
 
     /**
      * @throws Exception
      */
-    public function remove(): SuccessResponse
+    public function apply($id, CouponRequest $request): SuccessResponse
     {
-        return $this->ok($this->service->removeCoupon());
+        return $this->ok($this->service->apply($id, $request->all()));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function remove($id): SuccessResponse
+    {
+        return $this->ok($this->service->removeCoupon($id));
     }
 }

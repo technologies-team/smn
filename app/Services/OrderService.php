@@ -25,7 +25,7 @@ class OrderService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['user_id', 'status','payment_method'];
+    protected array $storables = ['user_id', 'status', 'payment_method'];
 
     /**
      * updatable field is a field which can be filled during updating the record
@@ -39,7 +39,7 @@ class OrderService extends ModelService
     /**
      *
      */
-    protected array $with = ['user'];
+    protected array $with = ['user', 'orderDetail'];
 
     public function builder(): Builder
     {
@@ -64,8 +64,8 @@ class OrderService extends ModelService
      */
     public function createOrder($kitchen_id, $attributes): Result
     {
-        $location=null;
-        if(isset($attributes['location_id'])){
+        $location = null;
+        if (isset($attributes['location_id'])) {
             $location = $this->locationService->find($attributes['location_id']);
             if (!$this->checkLocation($location)) {
                 throw  new Exception("not valid location ");
@@ -90,7 +90,7 @@ class OrderService extends ModelService
         $order = $this->store($attributes);
         if ($order instanceof Order) {
             $details = array();
-            if($location){
+            if ($location) {
                 $details['location'] = json_encode($location);
             }
             $details['items'] = json_encode($items);
@@ -101,7 +101,8 @@ class OrderService extends ModelService
             unset($item->food->kitchen);
 
         }
-        return $this->ok($order, "order create done");
+
+        return $this->ok($this->find($order->id), "order create done");
     }
 
     /**

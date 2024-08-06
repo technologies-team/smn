@@ -141,7 +141,7 @@ Route::post('/payment/callback', [PaymentController::class, 'webhook']);
 Route::prefix('/coupon')->group(function () {
     Route::middleware('auth:sanctum')
         ->group(function () {
-            Route::post('/', [CouponController::class, 'apply']);
+            Route::post('/{id}', [CouponController::class, 'apply']);
             Route::post('/remove', [CouponController::class, 'remove']);
 
         });

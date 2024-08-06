@@ -15,17 +15,22 @@ use Illuminate\Support\Facades\Log;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable=['user_id','status','payment_method'];
-    const STATUS=['waiting','cooking','ready_to_delivery','cancel','reject','complete'];
+
+    protected $with = ['user', 'orderDetail'];
+    protected $fillable = ['user_id', 'status', 'payment_method'];
+    const STATUS = ['waiting', 'cooking', 'ready_to_delivery', 'cancel', 'reject', 'complete'];
+
     public function user(): BelongsTo
     {
-      return  $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
+
     public function orderDetail(): HasOne
     {
         return $this->hasOne(OrderDetail::class);
 
     }
+
     public function orderLog(): HasMany
     {
         return $this->hasMany(Log::class);

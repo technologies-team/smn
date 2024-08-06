@@ -66,34 +66,7 @@ class CartsItemService extends ModelService
         return CartItem::query();
     }
 
-    public function getUserCart(): Cart
-    {
-        $user_id = auth()->user()->getAuthIdentifier();
 
-        $user = $this->userService->find($user_id);
-        if ($user instanceof User) {
-            $cart = $user->carts()->first();
-            if ($cart instanceof Cart) {
-                return $cart;
-            } else {
-                $attributes["user_id"] = $user_id;
-                $cart = $this->cartsService->store($attributes);
-                if ($cart instanceof Cart) {
-                    return $cart;
-                }
-            }
-        }
-        throw new Exception("there is user error");
-    }
-
-    public function calcDiscount($price, $type, $value, $max)
-    {
-        return match ($type) {
-            "percent_limited", "percent" => $max > 0 ? min((($price * $value) / 100), $max) : ($price * $value) / 100,
-            "fixed" => min($value, $price),
-            default => 0,
-        };
-    }
 
 
     /**

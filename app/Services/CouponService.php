@@ -29,9 +29,9 @@ class CouponService extends ModelService
     /**
      *
      */
-    protected CartsItemService$cartService;
+    protected CartsService $cartService;
 
-    public function __construct(CartsItemService $cartService)
+    public function __construct(CartsService $cartService)
     {
         $this->cartService = $cartService;
     }
@@ -49,34 +49,34 @@ class CouponService extends ModelService
     /**
      * @throws Exception
      */
-    public function apply(array $attribute): Result
+    public function apply($kitchen_id, array $attribute): Result
     {
         $coupon = $this->getCouponByName($attribute['name']);
         if (!$this->isValidCoupon($coupon)) {
             throw  new Exception('coupon code not valid try another code');
         }
         $newColumn = [];
-        $cart = $this->cartService->getUserCart();
-        $cartService = $cart->cartService()->first();
-        if (!($coupon->min_amount) || $coupon->min_amount < $cartService->price) {
-            if (isset($coupon->min_amount) && $coupon->min_amount > $cartService->price) {
+        $cart = $this->cartService->getUserCart($kitchen_id);
+        if (!($coupon->min_amount) || $coupon->min_amount < $cart->price) {
+            if (isset($coupon->min_amount) && $coupon->min_amount > $cart->price) {
                 $max = 0;
             } else {
-                $discount = $this->cartService->calcDiscount($cartService->price, $coupon->type, $coupon->value, $coupon->percent_limited);
+                $discount = $this->cartService->calcDiscount($cart->price, $coupon->type, $coupon->value, $coupon->percent_limited);
                 $max = $discount;
             }
-            $price = number_format($cartService->price - $max, 2, '.', '');
+            $price = number_format($cart->price - $max, 2, '.', '');
 
-            $newRewards =($cartService->price - $max)*100;
-            $newRewards  = number_format( $newRewards , 2, '.', '');
+            $newRewards = ($cart->price - $max) * 100;
+            $newRewards = number_format($newRewards, 2, '.', '');
 
             $newPrice = number_format($price, 2, '.', '');
             $newColumn["total_rewards"] = $newRewards;
             $newColumn["total_price"] = $newPrice;
+            $newColumn["discount"] = $cart->price - $newPrice;
             $newColumn["coupon_id"] = $coupon->id;
             $coupon->update(["count" => $coupon->count - 1]);
 
-            return $this->ok($this->cartService->update($cartService->id, $newColumn), "coupon Applied  successful");
+            return $this->ok($this->cartService->update($cart->id, $newColumn), "coupon Applied  successful");
 
         }
         throw new Exception("coupon code not valid try another code");
@@ -85,23 +85,23 @@ class CouponService extends ModelService
     /**
      * @throws Exception
      */
-    public function removeCoupon(): Result
+    public function removeCoupon($kitchen_id): Result
     {
-        $cart = $this->cartService->getUserCart();
-        $cartService = $cart->cartService()->first();
-        if (isset($cartService->coupon_id)) {
-            $coupon = $this->find($cartService->coupon_id);
+        $cart = $this->cartService->getUserCart($kitchen_id);
+
+        if (isset($cart->coupon_id)) {
+            $coupon = $this->find($cart->coupon_id);
             if (isset($coupon->count)) {
                 $coupon->update(["count" => $coupon->count + 1]);
             }
         }
-        $newColumn["total_price"] = $cartService->price;
-        $newRewards =($cartService->price )*100;
-        $newRewards= number_format( $newRewards , 2, '.', '');
+        $newColumn["total_price"] = $cart->price;
+        $newRewards = ($cart->price) * 100;
+        $newRewards = number_format($newRewards, 2, '.', '');
 
-        $newColumn["total_rewards"] =$newRewards;
+        $newColumn["total_rewards"] = $newRewards;
         $newColumn["coupon_id"] = Null;
-        return $this->ok($this->cartService->update($cartService->id, $newColumn), "coupon removed  successful");
+        return $this->ok($this->cartService->update($cart->id, $newColumn), "coupon removed  successful");
 
     }
 
@@ -118,7 +118,8 @@ class CouponService extends ModelService
     {
         if ($coupon instanceof Coupon) {
             $count = $coupon->where('start_at', '<=', now())->where('expires_at', '>=', now())->count();
-            if ($count === 0) {
+            if ($count <= 0) {
+
                 return false;
             }
             return true;

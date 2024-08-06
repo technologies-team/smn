@@ -178,4 +178,13 @@ class CartsService extends ModelService
     }
 
 
+    public function calcDiscount($price, $type, $value, $max)
+    {
+        return match ($type) {
+            "percent_limited", "percent" => $max > 0 ? min((($price * $value) / 100), $max) : ($price * $value) / 100,
+            "fixed" => min($value, $price),
+            default => 0,
+        };
+    }
+
 }
