@@ -22,7 +22,7 @@ class OrderTimeService extends Service
 
     public function OrderTime($id, $attributes): Result
     {
-        $currentDate = isset($attributes["date"]) ? Carbon::parse($attributes["date"]) : Carbon::today();
+        $currentDate = isset($attributes["date"]) ? Carbon::parse($attributes["date"]) : Carbon::tomorrow();
         if ($currentDate->gt(Carbon::today()->addWeek())) {
             throw new Exception("The date cannot be more than one week from today.", 400);
         }
