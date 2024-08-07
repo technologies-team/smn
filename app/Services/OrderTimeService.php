@@ -5,7 +5,6 @@ namespace App\Services;
 
 
 use App\DTOs\Result;
-use App\Models\BookDetail;
 use App\Models\KitchenAvailability;
 use App\Models\Order;
 use Carbon\Carbon;
@@ -34,7 +33,7 @@ class OrderTimeService extends Service
             $time = $this->availabilityService->getWorkDayBy($id, "day", $weekday);
 
         } else {
-            $time = $this->availabilityService->getWorkDayBy($id);
+            $time = $this->availabilityService->getWorkDayBy($id, "day", $currentDate->format('l'));;
         }
         $availability = [];
         if ($time instanceof KitchenAvailability) {
