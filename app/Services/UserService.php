@@ -98,11 +98,7 @@ class UserService extends ModelService
 
         $token = $user->createToken('*');
         $data = ['user' => $user,"kitchen"=>$user->kitchen()->first(), 'token' => $token->plainTextToken,];
-        try {
-            $user->notify(new UserRegisteredNotification($user));
 
-        } catch (Exception $e) {
-        }
         return $this->ok($data, 'Login successful');
     }
 
@@ -211,7 +207,12 @@ class UserService extends ModelService
             // $user = $client->user()->get()->first();
             $user = $this->ignoredFind($user->id);
             $token = $user->createToken('*');
-            (new EmailService($this))->sendWelcomeMail($user);
+         //   (new EmailService($this))->sendWelcomeMail($user);
+            try {
+                $user->notify(new UserRegisteredNotification($user));
+
+            } catch (Exception $e) {
+            }
             $data = [
                 'user' => $user->toLightWeightArray(),
                 'token' => $token->plainTextToken,
