@@ -20,12 +20,12 @@ class KitchenAvailabilityService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['kitchen_id', 'day', 'start_time', 'end_time','is_available'];
+    protected array $storables = ['kitchen_id', 'day', 'start_time', 'end_time', 'is_available'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['kitchen_id', 'day', 'start_time', 'end_time','is_available'];
+    protected array $updatables = ['kitchen_id', 'day', 'start_time', 'end_time', 'is_available'];
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
      */
@@ -40,6 +40,18 @@ class KitchenAvailabilityService extends ModelService
         return KitchenAvailability::query();
     }
 
+
+    public function getWorkDayBy($kitchen_id, string $day = "", string $weekday = "")
+    {
+        if ($day) {
+            return KitchenAvailability::where("day", $weekday)->where('kitchen_id', $kitchen_id)->where('is_available', 1)
+                ->first();
+        } else {
+            return KitchenAvailability::where('kitchen_id', $kitchen_id)->where('is_available', 1)
+                ->get();
+        }
+    }
+
     /**
      * prepare
      */
@@ -48,25 +60,24 @@ class KitchenAvailabilityService extends ModelService
 
         return parent::prepare($operation, $attributes);
     }
-public function store(array $attributes): Model
-{
-    try {
 
-        $record =parent::store($attributes);
-    } catch (QueryException $e) {
-        if ($e->errorInfo[1] != 1062) {
-            throw new \Exception($e->getMessage());
+    public function store(array $attributes): Model
+    {
+        try {
+
+            $record = parent::store($attributes);
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] != 1062) {
+                throw new \Exception($e->getMessage());
+            } else {
+
+                $record = KitchenAvailability::where('day', $attributes)->where()->update($attributes['availability']);
+            }
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
-        else{
+        return $record;
 
-            $record=KitchenAvailability::where('day', $attributes)->where()->update($attributes['availability']);
-        }
+
     }
-    catch (\Exception $e){
-        dd($e->getMessage());
-    }
-    return $record;
-
-
-}
 }

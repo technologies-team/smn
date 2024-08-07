@@ -20,6 +20,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\TimeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -146,5 +147,9 @@ Route::prefix('/coupon')->group(function () {
 
         });
 
+});
+Route::prefix('/time')->group(function () {
+
+    Route::post('/{id}', [TimeController::class, 'index']);
 });
 

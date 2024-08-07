@@ -5,52 +5,68 @@ namespace App\Services;
 
 
 use App\DTOs\Result;
+use App\Models\BookDetail;
+use App\Models\KitchenAvailability;
 use App\Models\Order;
 use Carbon\Carbon;
 use PHPUnit\Logging\Exception;
 
 class OrderTimeService extends Service
 {
-    public function bookTime($attributes): Result
+    protected KitchenAvailabilityService $availabilityService;
+
+    public function __construct(KitchenAvailabilityService $availabilityService)
     {
-        $currentDate = isset($attributes["date"]) ? Carbon::parse($attributes["date"]) :  Carbon::today();
+        $this->availabilityService = $availabilityService;
+    }
 
-        // Check if the date is more than one week from today
-        // Get the date one week from today
-
+    public function OrderTime($id, $attributes): Result
+    {
+        $currentDate = isset($attributes["date"]) ? Carbon::parse($attributes["date"]) : Carbon::today();
         if ($currentDate->gt(Carbon::today()->addWeek())) {
             throw new Exception("The date cannot be more than one week from today.", 400);
         }
-
-        // Check if the date is less than now
-        if ($currentDate->lt( Carbon::today())) {
+        if ($currentDate->lt(Carbon::today())) {
             throw new Exception("The date cannot be less than today.", 400);
         }
+        if (isset($attributes["week_day"])) {
+            $weekday = $attributes["week_day"];
+            $time = $this->availabilityService->getWorkDayBy($id, "day", $weekday);
 
-        $startTime = $currentDate->copy()->startOfDay()->hour(10);
-        $endTime = $currentDate->copy()->endOfDay()->hour(22);
-
-        // Retrieve ordered times directly from the database
-        $bookedTimes = Order::whereDate('order_time', $currentDate)->whereHas('book', function ($query) {$query->whereIn('status', ['waiting', 'schedule', 'inProgress']);})->pluck('order_time');
+        } else {
+            $time = $this->availabilityService->getWorkDayBy($id);
+        }
+        $availability = [];
+        if ($time instanceof KitchenAvailability) {
+            $availability["start_time"] = $time->start_time->format('H:i');
+            $availability["end_time"] = $time->end_time->format('H:i');
+            $startTime = $time->start_time;
+            $endTime = $time->end_time;
+            $availableTime = true;
+        } else {
+            $startTime = $currentDate->copy()->startOfDay()->hour(10);
+            $endTime = $currentDate->copy()->endOfDay()->hour(22);
+            $availableTime = false;
+        }
         $availability = [];
         $currentTime = $startTime->copy();
 
-        while ($currentTime->lte($endTime)) {
-            $availability[$currentTime->format("H:i")] = !$bookedTimes->contains($currentTime->toDateTimeString());
-            $currentTime->addHour();
+
+        while ($startTime->lte($endTime)) {
+            $availability[$startTime->format("H:i")] = $startTime->toDateTimeString();
+            $startTime->addHour();
         }
 
         ksort($availability);
 
         $data = [];
         foreach ($availability as $time => $available) {
-            $data[] = ["time" => $time, "available" => $available];
+            $data[] = ["time" => $time, "available" => $availableTime];
         }
+
 
         return $this->ok($data, "available time");
     }
-
-
 
 
 }
