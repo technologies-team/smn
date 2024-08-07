@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTOs\Result;
 use App\Models\User;
 use App\Models\UserFcm;
+use App\Notifications\UserRegisteredNotification;
 use Exception;
 use Exception as ExceptionAlias;
 use Illuminate\Database\Eloquent\Model;
@@ -97,7 +98,12 @@ class UserService extends ModelService
 
         $token = $user->createToken('*');
         $data = ['user' => $user,"kitchen"=>$user->kitchen()->first(), 'token' => $token->plainTextToken,];
+        try {
+            $user->notify(new UserRegisteredNotification($user));
 
+        } catch (Exception $e) {
+            throw new  Exception("error");
+        }
         return $this->ok($data, 'Login successful');
     }
 

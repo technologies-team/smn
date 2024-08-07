@@ -45,7 +45,7 @@ class OrderTimeService extends Service
         } else {
             $startTime = $currentDate->copy()->startOfDay()->hour(10);
             $endTime = $currentDate->copy()->endOfDay()->hour(22);
-            $availableTime = false;
+            $availableTime = true;
         }
         $availability = [];
         $currentTime = $startTime->copy();

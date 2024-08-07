@@ -164,6 +164,9 @@ abstract class ModelService extends Service
     {
         $fields = $this->prepare('update', $attributes);
         $record = $this->find($id);
+        if(isset($attributes['quantity'])&&$attributes['quantity']<=0){
+            return $this->destroy($id);
+        }
         if (!$record->update($fields)) {
             throw new Exception('records:update:errors:not_updated');
         }

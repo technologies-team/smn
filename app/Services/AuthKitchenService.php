@@ -5,22 +5,24 @@ namespace App\Services;
 use App\DTOs\Result;
 use App\Http\Responses\SuccessResponse;
 use App\Models\User;
+use App\Notifications\UserRegisteredNotification;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class AuthKitchenService extends UserService
 {
-    public function login( array $credentials,$role=User::ROLE_CUSTOMER): Result
+    public function login(array $credentials, $role = User::ROLE_CUSTOMER): Result
     {
-        return parent::login($credentials,User::ROLE_KITCHEN);
+        return parent::login($credentials, User::ROLE_KITCHEN);
     }
+
     /**
      * @throws Exception
      */
-    public function socialLogin($attributes,string $role=User::ROLE_KITCHEN): Result
+    public function socialLogin($attributes, string $role = User::ROLE_KITCHEN): Result
     {
-       return parent::socialLogin($attributes,User::ROLE_KITCHEN);
+        return parent::socialLogin($attributes, User::ROLE_KITCHEN);
     }
 
     /**
@@ -29,7 +31,7 @@ class AuthKitchenService extends UserService
     public function phoneLogin($attributes): Result
     {
         $user = $this->getUserBy("phone", $attributes["phone"]);
-        return $this->loginRegister($user, $attributes,User::ROLE_KITCHEN);
+        return $this->loginRegister($user, $attributes, User::ROLE_KITCHEN);
     }
 
     /**
@@ -37,9 +39,9 @@ class AuthKitchenService extends UserService
      */
     public function register($attributes): Result
     {
-        $attributes["role"]=User::ROLE_KITCHEN;
+        $attributes["role"] = User::ROLE_KITCHEN;
         $user = $this->store($attributes);
-        if($user instanceof User) {
+        if ($user instanceof User) {
 
             $user->kitchen()->create(["title" => $attributes["kitchen_name"]]);
             $user = $this->ignoredFind($user->id);
@@ -50,7 +52,13 @@ class AuthKitchenService extends UserService
                 "token" => $user->createToken('*')->plainTextToken
             ];
         }
-        return $this->ok($data,"register done");
+        try {
+            $user->notify(new UserRegisteredNotification($user));
+
+        } catch (Exception $e) {
+            throw new  Exception("error");
+        }
+        return $this->ok($data, "register done");
     }
 
 }

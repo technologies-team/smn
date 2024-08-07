@@ -23,7 +23,7 @@ class UserTableSeeder extends Seeder
         User::create(
             [
             'name' => 'Admin',
-            'email' => 'admin@smnfood.ae',
+            'email' => 'admin@smnfood.app',
             'password' => 'password',
             'status' => 'ACTIVE',
             'role'=>'admin'

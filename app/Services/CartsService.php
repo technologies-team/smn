@@ -121,6 +121,7 @@ class CartsService extends ModelService
                 if ($item instanceof CartItem) {
 
                     $this->cartsItemService->update($item->id, $food);
+
                 }
                 $this->cartsItemService->store($food);
 
