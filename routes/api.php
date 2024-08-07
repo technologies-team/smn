@@ -100,7 +100,7 @@ route::prefix('/food')->group(function () {
 route::prefix('/order')->group(function () {
     Route::middleware('auth:sanctum')->post('/{id}', [OrderController::class, 'confirmOrder']);
     Route::middleware('auth:sanctum')->get('/', [OrderController::class, 'index']);
-    Route::middleware('auth:sanctum')->get('/view/{id}', [OrderController::class, 'show']);
+    Route::middleware('auth:sanctum')->get('/{id}', [OrderController::class, 'show']);
 });
 route::prefix('/options')->group(function () {
     CrudApi(OptionController::class);
