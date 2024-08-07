@@ -17,7 +17,7 @@ class Order extends Model
     use HasFactory;
 
     protected $with = ['user', 'orderDetail'];
-    protected $fillable = ['user_id', 'status', 'payment_method'];
+    protected $fillable = ['Kitchen_id','user_id', 'status', 'payment_method'];
     const STATUS = ['waiting', 'cooking', 'ready_to_delivery', 'cancel', 'reject', 'complete'];
 
     public function user(): BelongsTo

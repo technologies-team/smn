@@ -25,12 +25,12 @@ class OrderService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['user_id', 'status', 'payment_method'];
+    protected array $storables = ['Kitchen_id','user_id', 'status', 'payment_method'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['user_id', 'status'];
+    protected array $updatables = [ 'status'];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
