@@ -102,7 +102,6 @@ class UserService extends ModelService
             $user->notify(new UserRegisteredNotification($user));
 
         } catch (Exception $e) {
-            throw new  Exception("error");
         }
         return $this->ok($data, 'Login successful');
     }
