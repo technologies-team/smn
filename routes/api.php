@@ -99,8 +99,8 @@ route::prefix('/food')->group(function () {
 });
 route::prefix('/order')->group(function () {
     Route::middleware('auth:sanctum')->post('/{id}', [OrderController::class, 'confirmOrder']);
-    Route::middleware('auth:sanctum')->get('/view/{id}', [CartController::class, 'show']);
-    Route::middleware('auth:sanctum')->delete('/clear/{id}', [CartController::class, 'clearCart']);
+    Route::middleware('auth:sanctum')->get('/', [OrderController::class, 'index']);
+    Route::middleware('auth:sanctum')->get('/view/{id}', [OrderController::class, 'show']);
 });
 route::prefix('/options')->group(function () {
     CrudApi(OptionController::class);
@@ -153,7 +153,8 @@ Route::prefix('/coupon')->group(function () {
 Route::prefix('/time')->group(function () {
 
     Route::post('/{id}', [TimeController::class, 'index']);
-});Route::prefix('/notification')->group(function () {
+});
+Route::prefix('/notification')->group(function () {
 
     Route::get('/', [NotificationController::class, 'index']);
 });
