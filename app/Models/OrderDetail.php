@@ -10,7 +10,7 @@ class OrderDetail extends Model
     use HasFactory;
 
     protected $fillable = ['location', 'items', 'coupon', 'offer'];
-    public function getItemAttribute($value)
+    public function getItemsAttribute($value)
     {
         $decodedValue = json_decode($value, true);
 
