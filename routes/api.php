@@ -14,6 +14,8 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\NotificatioController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\OrderController;
@@ -97,7 +99,7 @@ route::prefix('/food')->group(function () {
 });
 route::prefix('/order')->group(function () {
     Route::middleware('auth:sanctum')->post('/{id}', [OrderController::class, 'confirmOrder']);
-    Route::middleware('auth:sanctum')->get('/view/{id}', [CartController::class, 'viewCart']);
+    Route::middleware('auth:sanctum')->get('/view/{id}', [CartController::class, 'show']);
     Route::middleware('auth:sanctum')->delete('/clear/{id}', [CartController::class, 'clearCart']);
 });
 route::prefix('/options')->group(function () {
@@ -151,5 +153,8 @@ Route::prefix('/coupon')->group(function () {
 Route::prefix('/time')->group(function () {
 
     Route::post('/{id}', [TimeController::class, 'index']);
+});Route::prefix('/notification')->group(function () {
+
+    Route::get('/', [NotificationController::class, 'index']);
 });
 

@@ -55,6 +55,7 @@ class OrderRequest extends FormRequest
     protected function storeRules(): array
     {
         return [
+            'service_time' => 'required|date:Y-m-d\TH:i:sO',
             'delivery_type' => 'required|string',
             'location_id' => 'required_if:delivery_type,delivery',
         ];

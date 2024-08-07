@@ -35,7 +35,6 @@ class OrderTimeService extends Service
         } else {
             $time = $this->availabilityService->getWorkDayBy($id, "day", $currentDate->format('l'));;
         }
-        $availability = [];
         if ($time instanceof KitchenAvailability) {
             $availability["start_time"] = $time->start_time->format('H:i');
             $availability["end_time"] = $time->end_time->format('H:i');
@@ -47,7 +46,7 @@ class OrderTimeService extends Service
             $endTime = $currentDate->copy()->endOfDay()->hour(22);
             $availableTime = true;
         }
-        $availability = [];
+        $availability = array();
         $currentTime = $startTime->copy();
 
 
