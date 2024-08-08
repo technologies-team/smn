@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('Kitchen_id');
+            $table->unsignedBigInteger('kitchen_id');
             $table->enum('status', Order::STATUS)->default(Order::STATUS[0]);
             $table->double('price')->nullable();
             $table->double('total_price')->nullable();
@@ -33,7 +33,7 @@ return new class extends Migration
 
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('Kitchen_id')->references('id')->on('kitchens')->onDelete('cascade');
+            $table->foreign('kitchen_id')->references('id')->on('kitchens')->onDelete('cascade');
         });
     }
 

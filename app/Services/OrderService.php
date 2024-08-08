@@ -25,7 +25,22 @@ class OrderService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['user_id', 'kitchen_id', 'status', 'payment_method', 'order_time','price','total_price'];
+    protected array $storables = [
+        'user_id',
+        'kitchen_id',
+        'status',
+        'price',
+        'total_price',
+        'rewards',
+        'total_rewards',
+        'discount',
+        'total_discount',
+        'total_fee',
+        'shipping',
+        'total_shipping',
+        'notes',
+        'payment_method',
+        'order_time'];
 
     /**
      * updatable field is a field which can be filled during updating the record
@@ -90,6 +105,7 @@ class OrderService extends ModelService
         $attributes["total_rewards"] = 0;
         $attributes["discount"] = 0;
         $attributes["kitchen_id"] = $kitchen_id;
+        //dd($attributes);
         $order = $this->store($attributes);
         if ($order instanceof Order) {
             $details = array();

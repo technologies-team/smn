@@ -14,8 +14,24 @@ class Order extends Model
 {
     use HasFactory  ;
 
-    protected $with = [ 'kitchen','orderDetail'];
-    protected $fillable = ['kitchen_id','user_id', 'status', 'payment_method','order_time'];
+    protected $with = ['kitchen','orderDetail'];
+    protected $fillable = [
+        'user_id',
+        'kitchen_id',
+        'status',
+        'price',
+        'total_price',
+        'rewards',
+        'total_rewards',
+        'discount',
+        'total_discount',
+        'total_fee',
+        'shipping',
+        'total_shipping',
+        'notes',
+        'payment_method',
+        'order_time'
+    ];
     const STATUS = ['waiting', 'cooking', 'ready_to_delivery', 'cancel', 'reject', 'complete'];
 
 
