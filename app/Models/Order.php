@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
  */
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory  ;
 
     protected $with = ['user', 'orderDetail'];
     protected $fillable = ['kitchen_id','user_id', 'status', 'payment_method','order_time'];
