@@ -9,6 +9,7 @@
         "ext-http": "*",
         "fouladgar/laravel-otp": "^4.2",
         "inertiajs/inertia-laravel": "^1.0",
+        "kreait/firebase-php": "^7.13",
         "kreait/laravel-firebase": "^5.9",
         "laravel-notification-channels/fcm": "^4.3",
         "laravel/framework": "^11.0",

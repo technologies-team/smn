@@ -3,22 +3,16 @@
 
 namespace App\Services;
 
-
-use App\DTOs\Result;
-use App\Models\Banner;
 use App\Models\Notification;
-use Carbon\Factory;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
-use Twilio\Rest\Messaging;
 
-use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Firebase\Exception\MessagingException;
-
+use Kreait\Firebase\Contract\Messaging;
 use Lcobucci\JWT\UnencryptedToken;
-
-class NotificationService extends UserService
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Exception\FirebaseException;
+use Kreait\Firebase\Contract\Auth;
+class NotificationService extends ModelService
 {
 
 
@@ -36,7 +30,7 @@ class NotificationService extends UserService
             ->withServiceAccount(storage_path('app/key/customer.json'));
 
         $firebaseAppVendor = (new Factory)
-            ->withServiceAccount(storage_path('app/key/vendor.json'));
+            ->withServiceAccount(storage_path('app/key/kitchen.json'));
 
         $this->auth = $firebaseAppCustomer->createAuth();
         $this->messagingApp1 = $firebaseAppCustomer->createMessaging();
