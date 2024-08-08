@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('notification_histories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('notification_id');
+            $table->uuid('notification_id');
             $table->unsignedBigInteger('user_id');
             $table->string('action');
             $table->timestamp('timestamp');

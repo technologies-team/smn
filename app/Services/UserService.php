@@ -14,6 +14,8 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Kreait\Firebase\Exception\FirebaseException;
+use Kreait\Firebase\Exception\MessagingException;
 use Throwable;
 
 class UserService extends ModelService
@@ -21,12 +23,12 @@ class UserService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['username', 'name', 'email', 'phone', 'password', 'role_id', 'status', 'language','tap_customer_id','cm_firebase_token',"remember_token","role"];
+    protected array $storables = ['username', 'name', 'email', 'phone', 'password', 'role_id', 'status', 'language', 'tap_customer_id', 'cm_firebase_token', "remember_token", "role"];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['username', 'name', 'email', 'phone','password', 'status', 'language','cm_firebase_token',"remember_token",'role'];
+    protected array $updatables = ['username', 'name', 'email', 'phone', 'password', 'status', 'language', 'cm_firebase_token', "remember_token", 'role'];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
@@ -52,21 +54,19 @@ class UserService extends ModelService
     /**
      * @throws ExceptionAlias
      */
-    public function fcmSave(User $user, String $fcm): void
+    public function fcmSave(User $user, string $fcm): void
     {
 
         try {
-            $user->fcm()->create(["fcm"=>$fcm]);
+            $user->fcm()->create(["fcm" => $fcm]);
 
         } catch (QueryException $e) {
             if ($e->errorInfo[1] != 1062) {
                 throw new \Exception($e->getMessage());
-            }
-            else{
+            } else {
                 UserFcm::where('fcm', $fcm)->update(['user_id' => $user->id]);
             }
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             dd($e->getMessage());
         }
     }
@@ -74,15 +74,15 @@ class UserService extends ModelService
     /**
      * @throws ExceptionAlias
      */
-    public function login(array $credentials,$role=User::ROLE_CUSTOMER): \App\DTOs\Result
+    public function login(array $credentials, $role = User::ROLE_CUSTOMER): \App\DTOs\Result
     {
         $user = $this->getUserBy('email', $credentials['email']);
         if (!$user instanceof User) {
             throw new Exception('Email or password not correct');
         }
-      //  if ($user->status !== User::status_active) {
-      //      throw new Exception('User account is not active');
-     //   }
+        //  if ($user->status !== User::status_active) {
+        //      throw new Exception('User account is not active');
+        //   }
 
         if (isset($credentials["fcm"])) {
             $this->fcmSave($user, $credentials["fcm"]);
@@ -96,9 +96,14 @@ class UserService extends ModelService
         if (!$user->hasRole($role)) {
             throw new Exception('Unauthorized');
         }
+        try {
+            $this->pushNotification($user, "order status", " updated status  from  ");
 
+        } catch (Exception $e) {
+
+        }
         $token = $user->createToken('*');
-        $data = ['user' => $user,"kitchen"=>$user->kitchen()->first(), 'token' => $token->plainTextToken,];
+        $data = ['user' => $user, "kitchen" => $user->kitchen()->first(), 'token' => $token->plainTextToken,];
 
         return $this->ok($data, 'Login successful');
     }
@@ -106,24 +111,21 @@ class UserService extends ModelService
     /**
      * @throws ExceptionAlias
      */
-    public function socialLogin($attributes,string $role): Result
+    public function socialLogin($attributes, string $role): Result
     {
 
         if (isset($attributes["name"])) {
             $user = $this->getUserBy("name", $attributes["name"]);
         } else if (isset($attributes["remember_token"])) {
             $user = $this->getUserBy("remember_token", $attributes["remember_token"]);
-        }
-
-        else if(isset($attributes["phone"])){
+        } else if (isset($attributes["phone"])) {
 
             $user = $this->getUserBy("phone", $attributes["phone"]);
-        }
-        else {
+        } else {
             throw new Exception("user not found");
         }
 
-        return $this->loginRegister($user, $attributes,$role );
+        return $this->loginRegister($user, $attributes, $role);
 
 
     }
@@ -146,6 +148,7 @@ class UserService extends ModelService
         }
         return parent::prepare($operation, $attributes);
     }
+
     /**
      * @param $user
      * @param $attributes
@@ -153,21 +156,21 @@ class UserService extends ModelService
      * @return Result
      * @throws ExceptionAlias
      */
-    public function loginRegister($user, $attributes,$role): Result
+    public function loginRegister($user, $attributes, $role): Result
     {
         if ($user instanceof User) {
             if (isset($credentials["fcm"])) {
                 $this->fcmSave($user, $credentials["fcm"]);
                 unset($credentials["fcm"]);
             }
-            if($user->hasRole($role)){
+            if ($user->hasRole($role)) {
                 $token = $user->createToken('*');
                 $data = [
                     'user' => $user,
                     'token' => $token->plainTextToken,
                 ];
                 return $this->ok($data, 'login succeed');
-            }else{
+            } else {
                 throw new Exception("unauthorized");
             }
         }
@@ -179,7 +182,7 @@ class UserService extends ModelService
         if (!isset($attributes['password'])) {
             $attributes['password'] = "welcome1";
         }
-        $attributes["role"]=$role;
+        $attributes["role"] = $role;
 
         $attributes['registered'] = Carbon::parse(date('Y-m-d H:i:s'))->format('Y-m-d H:i:s');
         $user = $this->store($attributes);
@@ -193,14 +196,15 @@ class UserService extends ModelService
         ];
         return $this->ok($data, 'register:step1:done');
     }
+
     /**
      * @throws ExceptionAlias
      */
     public function register($attributes): Result
     {
         $attributes['status'] = User::status_active;
-        if(!isset($attributes['password'])){
-            $attributes['password']="welcome1";
+        if (!isset($attributes['password'])) {
+            $attributes['password'] = "welcome1";
         }
         $attributes['registered'] = Carbon::parse(date('Y-m-d H:i:s'))->format('Y-m-d H:i:s');
         $user = $this->store($attributes);
@@ -208,7 +212,7 @@ class UserService extends ModelService
             // $user = $client->user()->get()->first();
             $user = $this->ignoredFind($user->id);
             $token = $user->createToken('*');
-         //   (new EmailService($this))->sendWelcomeMail($user);
+            //   (new EmailService($this))->sendWelcomeMail($user);
             try {
                 $user->notify(new UserRegisteredNotification($user));
 
@@ -218,11 +222,12 @@ class UserService extends ModelService
                 'user' => $user->toLightWeightArray(),
                 'token' => $token->plainTextToken,
             ];
-                return $this->ok($data, 'clients:register:step1:done');
+            return $this->ok($data, 'clients:register:step1:done');
 
         }
         throw new \Exception('clients:register:step1:errors:failed');
     }
+
     /**
      * create a new user
      * @throws ExceptionAlias
@@ -232,31 +237,33 @@ class UserService extends ModelService
         unset($attributes["fcm"]);
         // TODO: sites attribute value
         return parent::store($attributes);
-    }    public function save($id,array $attributes): Result
-{
-        if(isset($attributes["password"])){
-            $user=auth()->user();
-            if($user instanceof User){
-            if (Hash::check($attributes["current_password"], $user->password)) {
-                $attributes["password"] = Hash::make($attributes["password"]);
-                $user->update(["password" => $attributes["password"]]);
-                unset($attributes["password"]);
-            }
-           else{
-           throw  new \Exception("current password uncorrected",403);
-           }
-        }
-        }
-        return parent::save($id,$attributes);
     }
+
+    public function save($id, array $attributes): Result
+    {
+        if (isset($attributes["password"])) {
+            $user = auth()->user();
+            if ($user instanceof User) {
+                if (Hash::check($attributes["current_password"], $user->password)) {
+                    $attributes["password"] = Hash::make($attributes["password"]);
+                    $user->update(["password" => $attributes["password"]]);
+                    unset($attributes["password"]);
+                } else {
+                    throw  new \Exception("current password uncorrected", 403);
+                }
+            }
+        }
+        return parent::save($id, $attributes);
+    }
+
     /**
      * delete inner
      * @throws ExceptionAlias
      */
-    public function delete($id=0): Result
+    public function delete($id = 0): Result
     {
-        if(!$id){
-            $id=auth()->id();
+        if (!$id) {
+            $id = auth()->id();
         }
         $record = $this->find($id);
         return parent::delete($id);
@@ -277,6 +284,7 @@ class UserService extends ModelService
         $user->saveOrFail();
         return $this->ok($id, 'users:activate:done');
     }
+
     /**
      * suspend user
      * @throws ExceptionAlias
@@ -296,14 +304,13 @@ class UserService extends ModelService
     /**
      *
      */
-    public function ignoredFind( $id): User
+    public function ignoredFind($id): User
     {
         $qb = $this->builder()->withoutGlobalScope('accessDB');
 
         if ($id == null) {
             throw new ExceptionAlias('records:find:errors:not_found');
-        }
-        else if (is_array($id)) {
+        } else if (is_array($id)) {
             if (!count($id)) {
                 throw new ExceptionAlias('records:find:errors:not_found');
             }
@@ -319,6 +326,7 @@ class UserService extends ModelService
         }
         return $qb;
     }
+
     public function me(): Result
     {
         $user = auth()->user();
@@ -327,6 +335,7 @@ class UserService extends ModelService
         }
         throw new Exception('unauthenticated');
     }
+
     /**
      * @throws Exception
      */
@@ -338,5 +347,27 @@ class UserService extends ModelService
             return $this->ok(true, 'done');
         }
         throw new Exception('unauthenticated');
+    }
+    public function pushNotification( $user, $title, $body): void
+    {
+        $message = [
+            'token' => $user->routeNotificationForFirebase(),
+            'notification' => [
+                'title' => $title,
+                'body' => $body,
+            ],
+        ];
+        try {
+
+            if ($user->role == User::ROLE_KITCHEN) {
+                $this->no->sendNotificationToAppVendor($message);
+
+            } else if($user->role == User::ROLE_CUSTOMER){
+                $this->firebaseService->sendNotificationToAppCustomer($message);
+
+            }
+        } catch (Exception|MessagingException|FirebaseException $e) {
+
+        }
     }
 }

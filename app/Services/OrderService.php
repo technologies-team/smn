@@ -87,6 +87,7 @@ class OrderService extends ModelService
         $attributes["total_rewards"] = 0;
         $attributes["discount"] = 0;
         $attributes["order_time"] = 0;
+        $attributes["kitchen_id"] = $kitchen_id;
         $order = $this->store($attributes);
         if ($order instanceof Order) {
             $details = array();

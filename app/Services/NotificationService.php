@@ -7,51 +7,66 @@ namespace App\Services;
 use App\DTOs\Result;
 use App\Models\Banner;
 use App\Models\Notification;
+use Carbon\Factory;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Twilio\Rest\Messaging;
 
-class NotificationService extends ModelService
+use Kreait\Firebase\Exception\FirebaseException;
+use Kreait\Firebase\Exception\MessagingException;
+
+use Lcobucci\JWT\UnencryptedToken;
+
+class NotificationService extends UserService
 {
-    /**
-     * storable field is a field which can be filled during creating the record
-     */
-    protected array $storables = [
-        'title',
-        'photo_id', 'description'
-    ];
 
-    /**
-     * updatable field is a field which can be filled during updating the record
-     */
-    protected array $updatables = [
-        'title',
-        'photo_id', 'description'
-    ];
-
-    /**
-     * searchable field is a field which can be searched for from keyword parameter in search method
-     */
-    protected array $searchables = ['title',];
-    /**
-     *
-     */
-    protected array $with = ['photo'];
 
     public function builder(): Builder
     {
         return Notification::query();
     }
+    protected Auth $auth;
+    protected Messaging $messagingApp1;
+    protected Messaging $messagingApp2;
 
-    /**
-     * prepare
-     */
-    protected function prepare(string $operation, array $attributes): array
+    public function __construct()
     {
+        $firebaseAppCustomer = (new Factory)
+            ->withServiceAccount(storage_path('app/key/customer.json'));
 
-        return parent::prepare($operation, $attributes);
+        $firebaseAppVendor = (new Factory)
+            ->withServiceAccount(storage_path('app/key/vendor.json'));
+
+        $this->auth = $firebaseAppCustomer->createAuth();
+        $this->messagingApp1 = $firebaseAppCustomer->createMessaging();
+        $this->messagingApp2 = $firebaseAppVendor->createMessaging();
+    }
+
+    public function verifyIdToken($idToken): ?UnencryptedToken
+    {
+        try {
+            return $this->auth->verifyIdToken($idToken);
+        } catch (\InvalidArgumentException $e) {
+            return null;
+        }
     }
 
     /**
-     * @throws Exception
+     * @throws MessagingException
+     * @throws FirebaseException
      */
+    public function sendNotificationToAppCustomer(array $message): array
+    {
+        return $this->messagingApp1->send($message);
+    }
+
+    /**
+     * @throws MessagingException
+     * @throws FirebaseException
+     */
+    public function sendNotificationToAppVendor(array $message): array
+    {
+        return $this->messagingApp2->send($message);
+    }
 }
