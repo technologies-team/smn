@@ -56,7 +56,6 @@ class AuthKitchenService extends UserService
             $user->notify(new UserRegisteredNotification($user));
 
         } catch (Exception $e) {
-            throw new  Exception("error");
         }
         return $this->ok($data, "register done");
     }

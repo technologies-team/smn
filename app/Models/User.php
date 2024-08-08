@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Couchbase\Role;
 use Fouladgar\OTP\Contracts\OTPNotifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -74,10 +75,7 @@ class User extends Authenticatable implements OTPNotifiable
     public function locations(): HasMany
     {
         return $this->hasMany(Location::class);
-    }  public function vehicles(): HasMany
-{
-    return $this->hasMany(Vehicle::class);
-}
+    }
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
