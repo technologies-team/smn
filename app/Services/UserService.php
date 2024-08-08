@@ -100,7 +100,7 @@ class UserService extends ModelService
             $this->pushNotification($user, "order status", " updated status  from  ");
 
         } catch (Exception $e) {
-
+dd($e);
         }
         $token = $user->createToken('*');
         $data = ['user' => $user, "kitchen" => $user->kitchen()->first(), 'token' => $token->plainTextToken,];

@@ -16,7 +16,7 @@ class Order extends Model
 {
     use HasFactory  ;
 
-    protected $with = ['user', 'orderDetail'];
+    protected $with = ['user', 'orderDetail','kitchen'];
     protected $fillable = ['kitchen_id','user_id', 'status', 'payment_method','order_time'];
     const STATUS = ['waiting', 'cooking', 'ready_to_delivery', 'cancel', 'reject', 'complete'];
 
@@ -34,5 +34,8 @@ class Order extends Model
     public function orderLog(): HasMany
     {
         return $this->hasMany(Log::class);
+    }   public function kitchen(): HasMany
+    {
+        return $this->hasMany(Kitchen::class);
     }
 }

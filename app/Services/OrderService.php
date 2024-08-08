@@ -39,7 +39,7 @@ class OrderService extends ModelService
     /**
      *
      */
-    protected array $with = ['user', 'orderDetail'];
+    protected array $with = ['user', 'orderDetail','kitchen'];
 
     public function builder(): Builder
     {
