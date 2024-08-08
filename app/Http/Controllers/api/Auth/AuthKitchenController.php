@@ -71,4 +71,8 @@ public function __construct(AuthKitchenService $service)
     {
         return $this->ok($this->service->logout());
     }
+    public function delete( $id=0): SuccessResponse
+{
+    return $this->ok($this->service->delete());
+}
 }

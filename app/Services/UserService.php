@@ -8,6 +8,7 @@ use App\Models\UserFcm;
 use App\Notifications\UserRegisteredNotification;
 use Exception;
 use Exception as ExceptionAlias;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
@@ -37,7 +38,7 @@ class UserService extends ModelService
      */
     protected array $with = [];
 
-    public function builder(): \Illuminate\Database\Eloquent\Builder
+    public function builder(): Builder
     {
         return User::query();
     }

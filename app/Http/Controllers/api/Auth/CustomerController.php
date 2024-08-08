@@ -74,8 +74,8 @@ class CustomerController extends Controller
     /**
      * @throws Exception
      */
-    public function delete($id): SuccessResponse
+    public function delete(): SuccessResponse
     {
-        return $this->ok($this->service->delete($id));
+        return $this->ok($this->service->delete());
     }
 }

@@ -77,7 +77,11 @@ class UserController extends BaseController
     {
         return $this->ok($this->service->save($id, $request->all()));
     }
-    public function delete( ): SuccessResponse
+
+    /**
+     * @throws Exception
+     */
+    public function delete(): SuccessResponse
     {
         return $this->ok($this->service->delete());
     }
@@ -117,13 +121,7 @@ class UserController extends BaseController
         return $this->ok($this->service->create($request->all()));
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function destroy(int $id): SuccessResponse
-    {
-        return $this->ok($this->service->delete($id));
-    }
+
     /**
      * echo
      */

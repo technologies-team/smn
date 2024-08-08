@@ -40,7 +40,7 @@ if (!function_exists('authFunctionApi')) {
             Route::middleware('auth:sanctum')->group(function () use ($controller) {
                 Route::put('/user/{id}', [UserController::class, 'update']);
                 Route::get('/me', [$controller, 'me']);
-                Route::get('/delete', [$controller, 'delete']);
+                Route::delete('/delete', [$controller, 'delete']);
                 Route::post('/logout', [$controller, 'logout']);
             });
         });
