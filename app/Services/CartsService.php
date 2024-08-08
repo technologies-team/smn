@@ -40,6 +40,8 @@ class CartsService extends ModelService
         'kitchen_id',
         'tax',
         'total_tax',
+        'options',
+
         'price',
         'total_price',
         'discount',
@@ -59,6 +61,8 @@ class CartsService extends ModelService
         'total_price',
         'discount',
         'total_discount',
+        'options',
+
         'rewards',
         'total_rewards',
         'coupon_id',

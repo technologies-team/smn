@@ -23,6 +23,7 @@ class Cart extends Model
         'tax',
         'total_tax',
         'price',
+        'options',
         'total_price',
         'discount',
         'total_discount',
@@ -32,13 +33,21 @@ class Cart extends Model
         'offer_id',
     ];
     protected $hidden = ['session_id'];
-    protected $with = ['item',];
+    protected $with = ['item','kitchen'];
 
     public function item(): HasMany
     {
         return $this->hasMany(CartItem::class);
+    }    public function kitchen(): BelongsTo
+{
+        return $this->belongsTo(Kitchen::class);
     }
+    public function getOptionsAttribute($value)
+    {
+        $decodedValue = json_decode($value, true);
 
+        return $decodedValue ?? $value;
+    }
 
 
     /**

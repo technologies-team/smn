@@ -44,6 +44,9 @@ protected $with=['photo', 'cover'];
     } public function food(): HasMany
     {
         return $this->hasMany(Food::class);
+    } public function order(): HasMany
+    {
+        return $this->hasMany(order::class);
     }
     public function tags(): HasMany
     {
