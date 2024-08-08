@@ -33,7 +33,16 @@ class Order extends Model
         'order_time'
     ];
     const STATUS = ['waiting', 'cooking', 'ready_to_delivery', 'cancel', 'reject', 'complete'];
-
+    protected $casts = [
+        'price' => 'string',
+        'total_price' => 'string',
+        'rewards' => 'string',
+        'total_rewards' => 'string',
+        'discount' => 'string',
+        'total_discount' => 'string',
+        'total_fee' => 'string',
+        'shipping' => 'string',
+    ];
 
 
     public function orderDetail(): HasOne

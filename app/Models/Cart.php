@@ -34,7 +34,16 @@ class Cart extends Model
     ];
     protected $hidden = ['session_id'];
     protected $with = ['item','kitchen'];
-
+    protected $casts = [
+        'price' => 'string',
+        'total_price' => 'string',
+        'rewards' => 'string',
+        'total_rewards' => 'string',
+        'discount' => 'string',
+        'total_discount' => 'string',
+        'total_fee' => 'string',
+        'shipping' => 'string',
+    ];
     public function item(): HasMany
     {
         return $this->hasMany(CartItem::class);
