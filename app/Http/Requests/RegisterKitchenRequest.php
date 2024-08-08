@@ -25,9 +25,9 @@ class RegisterKitchenRequest extends FormRequest
     {
         return [
             'name' => 'string',
-            'phone'=>'required|string|unique:users,phone',
+            'phone'=>'string|unique:users,phone',
             'email' => 'required|string|unique:users,email|email',
-            'password' => 'string',
+            'password' => 'required|string',
             'kitchen_name'=>'required|string'
         ];
     }
