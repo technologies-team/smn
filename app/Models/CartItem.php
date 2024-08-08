@@ -22,6 +22,13 @@ class CartItem extends Model
         'quantity',
     ];
     protected $with=['food'];
+    protected $casts = [
+        'price' => 'string',
+        'total_price' => 'string',
+        'rewards' => 'string',
+        'discount' => 'string',
+        'total_discount' => 'string',
+    ];
     public function food(): BelongsTo
     {
         return $this->belongsTo(Food::class);
