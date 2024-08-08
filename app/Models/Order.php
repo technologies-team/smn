@@ -34,8 +34,8 @@ class Order extends Model
     public function orderLog(): HasMany
     {
         return $this->hasMany(Log::class);
-    }   public function kitchen(): HasMany
+    }   public function kitchen(): belongsTo
     {
-        return $this->hasMany(Kitchen::class);
+        return $this->belongsTo(Kitchen::class);
     }
 }
