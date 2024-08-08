@@ -25,12 +25,12 @@ class OrderService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['Kitchen_id','user_id', 'status', 'payment_method'];
+    protected array $storables = ['user_id', 'kitchen_id', 'status', 'payment_method', 'order_time'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = [ 'status'];
+    protected array $updatables = ['status'];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
@@ -73,6 +73,9 @@ class OrderService extends ModelService
         }
 
         $cart = $this->cartsService->getUserCart($kitchen_id);
+        if (empty($cart->item()->first())) {
+            throw new Exception("empty Cart");
+        }
 
         $items = $cart->item()->without("kitchen")->get();
 
@@ -86,7 +89,6 @@ class OrderService extends ModelService
         $attributes["rewards"] = 0;
         $attributes["total_rewards"] = 0;
         $attributes["discount"] = 0;
-        $attributes["order_time"] = 0;
         $attributes["kitchen_id"] = $kitchen_id;
         $order = $this->store($attributes);
         if ($order instanceof Order) {
@@ -102,6 +104,7 @@ class OrderService extends ModelService
             unset($item->food->kitchen);
 
         }
+        $cart->delete();
 
         return $this->ok($this->find($order->id), "order create done");
     }
